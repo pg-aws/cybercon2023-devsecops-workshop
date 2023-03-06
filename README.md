@@ -22,20 +22,44 @@ In this workshop you will learn xxx
 
 
 ## Scenario 1 - EC2 instance with public IP, unencrypted disk and open security group
-- Upload a given cloudformation template to codecommit repo
-- Trigger pipeline and start provisioning
-- Checkov detecting vulnerability and this should fail
-- Make changes to the CloudFormation template
-- Edit and override the CloudFormation template
-- Push changes and pass and provision the resource
+
+### Scan vulnerable EC2 template
+1. From this project download the **ec2.yaml**
+2. Navigate to you CodeCommit Repository in AWS console
+3. Select 'Add file' then "Upload file", choose the  **ec2.yaml** file you just downloaded and click "Commit changes"
+4. Wait for CodePipeline to run and detect vulnerabilities. This should take around x minutes.
+5. Once completed, check the completion status of the 'Test Action'. It should result in a 'Failed' state.
+6. Click on "View in CodeBuild" to see the details of the vulnerabilities
+
+
+### Fix vulnerabilities in EC2 template
+1. Navigate to you CodeCommit Repository in AWS console
+2. Select the **ec2.yaml** file then click 'Edit'
+3. Override the original content with the **ec2-fixed.yaml** file from this project and click "Commit changes"
+4. Wait for CodePipeline to run and detect vulnerabilities. This should take around x minutes.
+5. Once completed, check the completion status of the 'Test Action'. It should result in a 'Succeeded' state
+6. Click on "View in CodeBuild" to see the details of the scan results
+7. Navigate to EC2 console and validate that the instance has been successfully provisioned
 
 ## Scenario 2 - S3 bucket with public access and incoming traffic from any IP address
-- Download static website files
-- Download the cloudformation template that creates a S3 bucket
-- Checkov detecting vulnerability and this should fail
-- Make changes to the CloudFormation template
-- Edit and override the CloudFormation template
-- Push changes and pass and provision the resource
+
+### Scan vulnerable S3 template
+1. From this project download the **s3.yaml** and the static website files
+2. Navigate to you CodeCommit Repository in AWS console
+3. Select 'Add file' then "Upload file", choose the  **s3.yaml** file you just downloaded and click "Commit changes"
+4. Upload the static website files to the responsitory
+5. Wait for CodePipeline to run and detect vulnerabilities. This should take around x minutes.
+6. Once completed, check the completion status of the 'Test Action'. It should result in a 'Failed' state
+7. Click on "View in CodeBuild" to see the details of the vulnerabilities
+
+### Fix vulnerabilities in S3 template
+1. Navigate to you CodeCommit Repository in AWS console
+2. Select the **s3.yaml** file then click 'Edit'
+3. Override the original content with the **s3-fixed.yaml** file from this project and click "Commit changes"
+4. Wait for CodePipeline to run and detect vulnerabilities. This should take around x minutes.
+5. Once completed, check the completion status of the 'Test Action'. It should result in a 'Succeeded' state.
+6. Click on "View in CodeBuild" to see the details of the scan results
+7. Navigate to S3 console and validate that the instance has been successfully provisioned
 
 ## Scenario 3 - Essential 8 control violations
 
