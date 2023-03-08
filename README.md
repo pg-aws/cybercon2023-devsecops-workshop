@@ -63,5 +63,22 @@ In this workshop you will learn xxx
 
 ## Scenario 3 - Essential 8 control violations
 
+### Scan vulnerable DynamoDB template
+1. From this project download the **dynamoDB.yaml** and the static website files
+2. Navigate to you CodeCommit Repository in AWS console
+3. Select 'Add file' then "Upload file", choose the  **dynamoDB.yaml** file you just downloaded and click "Commit changes"
+4. Upload the static website files to the responsitory
+5. Wait for CodePipeline to run and detect vulnerabilities. This should take around x minutes.
+6. Once completed, check the completion status of the 'Test Action'. It should result in a 'Failed' state
+7. Click on "View in CodeBuild" to see the details of the vulnerabilities
+
+### Fix vulnerabilities in DynamoDB template
+1. Navigate to you CodeCommit Repository in AWS console
+2. Select the **dynamoDB.yaml** file then click 'Edit'
+3. Override the original content with the **dynamoDB-fixed.yaml** file from this project and click "Commit changes"
+4. Wait for CodePipeline to run and detect vulnerabilities. This should take around x minutes.
+5. Once completed, check the completion status of the 'Test Action'. It should result in a 'Succeeded' state.
+6. Click on "View in CodeBuild" to see the details of the scan results
+7. Navigate to S3 console and validate that the instance has been successfully provisioned
 
 ## Scenario 4 - Custom policies
