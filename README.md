@@ -13,13 +13,21 @@ Welcome to "Integrating Security and Compliance in Infrastructure-as-Code" works
 In this workshop you will learn xxx
 
 ## Lab Envrionment Setup
-
+From this project download the **lambda.zip** and import to Lambda. The lambda function will be used with the DevSecOps pipeline to export vulnerabilities to SecurityHub.
 
 ## Initialise Lab
 
+From this project download the **CheckovPipeline.yaml** and deploy the pipeline in CloudFormation console.
+
+Once the CloudFormation template is deployed successfully, you can see the DevSecOps pipeline under AWS CodePipeline. Below is the screenshot of the pipeline after a successful execution. Please note, you may see a failed status because you haven’t initiated your pipeline yet.
 
 ## Check Pipeline
 
+Let’s make a minor change to our sample CloudFormation script and push it to CodeCommit
+
+Go to CodeCommit following this link and take a look at our Git repository, it should look like this at this point:
+
+This will automatically trigger the pipeline and go through the vulnerability scanning stages. The sample CloudFormation tempalte should not have any vulnerabilities and the vulnerability stage should succeed without any failures.
 
 ## Scenario 1 - EC2 instance with public IP, unencrypted disk and open security group
 
