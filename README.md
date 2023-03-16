@@ -57,95 +57,129 @@ In the popup window, clear the Branch name by clicking on the cross icon next to
 7. Click on "Done" and save the changes
 8. click on the "Release change" button from the top right of the CodePipeline screen to manually trigger the pipeline with the most recent change.
 ![image](https://user-images.githubusercontent.com/126644393/225553148-e15e52a5-3067-474b-a055-95c42004e881.png)
-9.Wait for CodePipeline to finish. This should take around 2 minutes. 
-11. Once completed, you can click on "Details" in the "CheckovTestAction" box to check the Checkov scan results. 
+
+9. Wait for CodePipeline to finish. This should take around 2 minutes. 
+10. Once completed, you can click on "Details" in the "CheckovTestAction" box to check the Checkov scan results. 
 <img alt="image" src="https://user-images.githubusercontent.com/126644393/225557374-54afd4d2-b238-423a-8cff-a23b72f749e9.png">
-12. The results will include number of passed checks and failed checks, and line numbers of the infrastructure code that failed specific policy. The sample CloudFormation template should not have any vulnerabilities and the vulnerability stage should succeed without any failures.
+
+11. The results will include number of passed checks and failed checks, and line numbers of the infrastructure code that failed specific policy. The sample CloudFormation template should not have any vulnerabilities and the vulnerability stage should succeed without any failures.
 <img alt="image" src="https://user-images.githubusercontent.com/126644393/225558759-9e572290-7d9a-4617-8c0b-f3cbf8e93521.png">
 
 
 ## Scenario 1 - EC2 instance with public IP, unencrypted disk and open security group
 
 ### Scan vulnerable EC2 template
-1. From this project download the **ec2.yaml**
-2. Navigate to you CodeCommit Repository in AWS console
-![image](https://user-images.githubusercontent.com/126644393/225547486-03187fe0-e016-42c6-8ac9-3a992731b225.png)
-3. Select 'Add file' then "Upload file", choose the  **ec2.yaml** file you just downloaded and click "Commit changes"
-![image](https://user-images.githubusercontent.com/126644393/225547267-a4a946f0-7535-4df0-9ded-fe2b95e22ca1.png)
-4. Wait for CodePipeline to run and detect vulnerabilities. This should take around x minutes.
-5. Once completed, check the completion status of the 'Test Action'. It should result in a 'Failed' state.
+1. Download the files from the "scenario-1" folder
+2. Navigate to you CodeCommit Repository in AWS console following [this link](https://ap-southeast-2.console.aws.amazon.com/codesuite/codecommit/repositories/cloudformation-checkov-test/browse?region=ap-southeast-2)
+3. Select the **sample-template.yaml** file then click 'Edit'
+4. Override the original content with the **ec2.yaml** file you just downloaded and click "Commit changes"
+![image](https://user-images.githubusercontent.com/126644393/225560291-5d6fccbd-2cb4-4a50-a686-e6f4b7a9241b.png)
+
+4. Wait for CodePipeline to run and detect vulnerabilities.
+5. Once completed, check the completion status of the 'CheckovTestAction' box. It should result in a 'Failed' state.
 6. Click on "View in CodeBuild" to see the details of the vulnerabilities
+<img alt="image" src="https://user-images.githubusercontent.com/126644393/225561838-7210a167-e127-484f-8dda-ea01d8a0b9e7.png">
+7. The failed checks are:
+- Check: CKV_AWS_3: "Ensure all data stored in the EBS is securely encrypted"
+- Check: CKV_AWS_88: "EC2 instance should not have public IP."
+- Check: CKV_AWS_260: "Ensure no security groups allow ingress from 0.0.0.0:0 to port 80"
+- Check: CKV_AWS_24: "Ensure no security groups allow ingress from 0.0.0.0:0 to port 22"
+8. Next we will fix these issues in our CloudFormation template and upload the fixed version to CodeCommit Repository
 
 ### Fix vulnerabilities in EC2 template
 1. Navigate to you CodeCommit Repository in AWS console
-2. Select the **ec2.yaml** file then click 'Edit'
-3. Override the original content with the **ec2-fixed.yaml** file from this project and click "Commit changes"
-4. Wait for CodePipeline to run and detect vulnerabilities. This should take around x minutes.
-5. Once completed, check the completion status of the 'Test Action'. It should result in a 'Succeeded' state
+2. Select the **sample-template.yaml** file then click 'Edit'
+3. Override the original content with the **ec2-fixed.yaml** file you just downloaded and click "Commit changes"
+4. Wait for CodePipeline to run and detect vulnerabilities. 
+5. Once completed, check the completion status of the 'CheckovTestAction' box. It should result in a 'Succeeded' state
 6. Click on "View in CodeBuild" to see the details of the scan results
+
 
 ## Scenario 2 - S3 bucket with public access and incoming traffic from any IP address
 
 ### Scan vulnerable S3 template
-1. From this project download the **s3.yaml** and the static website files
+1. Download the files from the "scenario-2" folder
 2. Navigate to you CodeCommit Repository in AWS console
-3. Select 'Add file' then "Upload file", choose the  **s3.yaml** file you just downloaded and click "Commit changes"
-4. Upload the static website files to the responsitory
-5. Wait for CodePipeline to run and detect vulnerabilities. This should take around x minutes.
-6. Once completed, check the completion status of the 'Test Action'. It should result in a 'Failed' state
-7. Click on "View in CodeBuild" to see the details of the vulnerabilities
+3. Select the **sample-template.yaml** file then click 'Edit'
+4. Override the original content with the **s3.yaml** file you just downloaded and click "Commit changes"
+6. Wait for CodePipeline to run and detect vulnerabilities. 
+7. Once completed, check the completion status of the 'CheckovTestAction' box. It should result in a 'Failed' state
+8. Click on "View in CodeBuild" to see the details of the vulnerabilities
+9. The failed checks are:
+- Check: CKV_AWS_21: "Ensure the S3 bucket has versioning enabled"
+- Check: CKV_AWS_56: "Ensure S3 bucket has 'restrict_public_bucket' enabled"
+- Check: CKV_AWS_20: "Ensure the S3 bucket does not allow READ permissions to everyone"
+- Check: CKV_AWS_55: "Ensure S3 bucket has ignore public ACLs enabled"
+- Check: CKV_AWS_54: "Ensure S3 bucket has block public policy enabled"
+- Check: CKV_AWS_53: "Ensure S3 bucket has block public ACLS enabled"
+- Check: CKV_AWS_18: "Ensure the S3 bucket has access logging enabled"
+10. Next we will fix these issues in our CloudFormation template and upload the fixed version to CodeCommit Repository
 
 ### Fix vulnerabilities in S3 template
 1. Navigate to you CodeCommit Repository in AWS console
-2. Select the **s3.yaml** file then click 'Edit'
-3. Override the original content with the **s3-fixed.yaml** file from this project and click "Commit changes"
-4. Wait for CodePipeline to run and detect vulnerabilities. This should take around x minutes.
-5. Once completed, check the completion status of the 'Test Action'. It should result in a 'Succeeded' state.
+2. Select the **sample-template.yaml** file then click 'Edit'
+3. Override the original content with the **s3-fixed.yaml** file you just downloaded and click "Commit changes"
+4. Wait for CodePipeline to run and detect vulnerabilities. 
+5. Once completed, check the completion status of the 'CheckovTestAction' box. It should result in a 'Succeeded' state.
 6. Click on "View in CodeBuild" to see the details of the scan results
 
+
 ## Scenario 3 - Essential 8 control violations
+In this scenario, we will scan a CloudFormation template that violates 2 coontrols from Essential 8 framework. The CloudFormation template will deploy a DynamoDB database without KMS encryption and backup.
 
 ### Scan vulnerable DynamoDB template
-1. From this project download the **dynamoDB.yaml** and the static website files
+1. Download the files from the "scenario-3" folder
 2. Navigate to you CodeCommit Repository in AWS console
-3. Select 'Add file' then "Upload file", choose the  **dynamoDB.yaml** file you just downloaded and click "Commit changes"
-4. Upload the static website files to the responsitory
-5. Wait for CodePipeline to run and detect vulnerabilities. This should take around x minutes.
-6. Once completed, check the completion status of the 'Test Action'. It should result in a 'Failed' state
-7. Click on "View in CodeBuild" to see the details of the vulnerabilities
+3. Select the **sample-template.yaml** file then click 'Edit'
+4. Override the original content with the **dynamoDB.yaml** file you just downloaded and click "Commit changes"
+6. Wait for CodePipeline to run and detect vulnerabilities. 
+7. Once completed, check the completion status of the 'CheckovTestAction' box. It should result in a 'Failed' state
+8. Click on "View in CodeBuild" to see the details of the vulnerabilities
+9. The failed checks are:
+- Check: CKV_AWS_119: "Ensure DynamoDB Tables are encrypted using a KMS Customer Managed CMK"
+- Check: CKV_AWS_28: "Ensure Dynamodb point in time recovery (backup) is enabled"
+10. Next we will fix these issues in our CloudFormation template and upload the fixed version to CodeCommit Repository
 
 ### Fix vulnerabilities in DynamoDB template
 1. Navigate to you CodeCommit Repository in AWS console
 2. Select the **dynamoDB.yaml** file then click 'Edit'
-3. Override the original content with the **dynamoDB-fixed.yaml** file from this project and click "Commit changes"
-4. Wait for CodePipeline to run and detect vulnerabilities. This should take around x minutes.
-5. Once completed, check the completion status of the 'Test Action'. It should result in a 'Succeeded' state.
+3. Override the original content with the **dynamoDB-fixed.yaml** file you just downloaded and click "Commit changes"
+4. Wait for CodePipeline to run and detect vulnerabilities.
+5. Once completed, check the completion status of the 'CheckovTestAction' box. It should result in a 'Succeeded' state.
 6. Click on "View in CodeBuild" to see the details of the scan results
 
+
 ## Scenario 4 - Custom policies
+In this scenario, 
 
 ### Scan vulnerable AppSync template
-1. From this project download the **dynamoDB.yaml** and the static website files
+1. Download the files from the "scenario-4" folder
 2. Navigate to you CodeCommit Repository in AWS console
-3. Select 'Add file' then "Upload file", choose the  **dynamoDB.yaml** file you just downloaded and click "Commit changes"
-4. Upload the static website files to the responsitory
-5. Wait for CodePipeline to run and detect vulnerabilities. This should take around x minutes.
-6. Once completed, check the completion status of the 'Test Action'. It should result in a 'Failed' state
-7. Click on "View in CodeBuild" to see the details of the vulnerabilities
+3. Select the **sample-template.yaml** file then click 'Edit'
+4. Override the original content with the **appsyncapi.yaml** file you just downloaded and click "Commit changes"
+5. Upload the static website files to the responsitory
+6. Wait for CodePipeline to run and detect vulnerabilities.
+7. Once completed, check the completion status of the 'CheckovTestAction' box. It should result in a 'Failed' state
+8. Click on "View in CodeBuild" to see the details of the vulnerabilities
+9. The failed checks are:
+- Check: CKV_AWS_119: "Ensure DynamoDB Tables are encrypted using a KMS Customer Managed CMK"
+- Check: CKV_AWS_28: "Ensure Dynamodb point in time recovery (backup) is enabled"
+10. Next we will fix these issues in our CloudFormation template and upload the fixed version to CodeCommit Repository
 
 ### Fix vulnerabilities in AppSync template
 1. Navigate to you CodeCommit Repository in AWS console
-2. Select the **AppSyncAPI.yaml** file then click 'Edit'
-3. Override the original content with the **AppSyncAPI-fixed.yaml** file from this project and click "Commit changes"
-4. Wait for CodePipeline to run and detect vulnerabilities. This should take around x minutes.
-5. Once completed, check the completion status of the 'Test Action'. It should result in a 'Succeeded' state.
+2. Select the **sample-template.yaml** file then click 'Edit'
+3. Override the original content with the **appsyncapi-fixed.yaml** file you just downloaded  and click "Commit changes"
+4. Wait for CodePipeline to run and detect vulnerabilities. 
+5. Once completed, check the completion status of the 'CheckovTestAction' box. It should result in a 'Succeeded' state.
 6. Click on "View in CodeBuild" to see the details of the scan results
+
 
 ## Additional Exercises
 
 ### Import vulnerabilities to Security Hub
+1. Download the files from the "additional-exercises" folder
+2. Import the **ImportVulToSecurityHub.zip** file to Lambda. The lambda function will be used with the DevSecOps pipeline to export the findings to SecurityHub.
+3. Upload the **buildspec-checkov.yml** file to your CodeCommit Repository
 
-
-From this project download the **lambda.zip** and import to Lambda. The lambda function will be used with the DevSecOps pipeline to export the findings to SecurityHub.
-
-### Use CodePipeline to deploy resources in Scenario 1-4
+### Use CodePipeline to deploy resources in Scenario 1-3
