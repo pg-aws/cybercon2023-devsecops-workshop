@@ -4,22 +4,24 @@
 
 1. [Workshop Instructions](#workshop-instructions)
 2. [Lab Envrionment Setup](#lab-envrionment-setup)
-3. [Lab Envrionment Setup](#lab-envrionment-setup)
-4. [Lab Envrionment Setup](#lab-envrionment-setup)
-5. [Lab Envrionment Setup](#lab-envrionment-setup)
+3. [Initialise Lab](#Initialise Lab)
+4. [Check Pipeline](#Check Pipeline)
+5. [Scenario 1 - EC2 instance with public IP, unencrypted disk and open security group](#Scenario 1 - EC2 instance with public IP, unencrypted disk and open security group)
+6. [Scenario 2 - S3 bucket with public access and incoming traffic from any IP address](#Scenario 2 - S3 bucket with public access and incoming traffic from any IP address)
+7. [Scenario 3 - Essential 8 control violations](#Scenario 3 - Essential 8 control violations)
+8. [Scenario 4 - Custom policies](#Scenario 4 - Custom policies)
 
 ## Workshop Instructions
 Welcome to "Integrating Security and Compliance in Infrastructure-as-Code" workshop!
-In this workshop you will learn xxx
+In this workshop you will learn to use CodePipeline and Checkov to detect and remediate security issues or misconfigurations in your infrastructure code.
 
 ## Lab Envrionment Setup
-From this project download the **lambda.zip** and import to Lambda. The lambda function will be used with the DevSecOps pipeline to export vulnerabilities to SecurityHub.
+From this project download the **lambda.zip** and import to Lambda. The lambda function will be used with the DevSecOps pipeline to export the findings to SecurityHub.
 
 ## Initialise Lab
-
 From this project download the **CheckovPipeline.yaml** and deploy the pipeline in CloudFormation console.
 
-Once the CloudFormation template is deployed successfully, you can see the DevSecOps pipeline under AWS CodePipeline. Below is the screenshot of the pipeline after a successful execution. Please note, you may see a failed status because you haven’t initiated your pipeline yet.
+Once the CloudFormation template is deployed successfully, you will see the DevSecOps pipeline under AWS CodePipeline. Below is the screenshot of the pipeline after a successful execution. Please note, you may see a failed status because you haven’t initiated your pipeline yet.
 
 ## Check Pipeline
 
@@ -90,3 +92,4 @@ This will automatically trigger the pipeline and go through the vulnerability sc
 7. Navigate to S3 console and validate that the instance has been successfully provisioned
 
 ## Scenario 4 - Custom policies
+
