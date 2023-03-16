@@ -150,21 +150,45 @@ In this scenario, we will scan a CloudFormation template that violates 2 coontro
 
 
 ## Scenario 4 - Custom policies
-In this scenario, 
+Checkov comes with a set of prefined policies ([see link](https://www.checkov.io/5.Policy%20Index/cloudformation.html)) for CloudFormation templates.
+In addition, you can also create your own custom policies to monitor and enforce cloud infrastructure configuration in accordance with your organization’s specific needs. For example, for certain resource types, you may want to enforce a tagging methodology or a special secure password policy; or you may want to restrict usage of a new service depending on the types of other services it is connected to.
 
-### Scan vulnerable AppSync template
+In this scenario, we will create a custom policy to ensure AppSnync is protected by WAF and see how misconfigurations is detected.
+
+### Setup custom policy
 1. Download the files from the "scenario-4" folder
 2. Navigate to you CodeCommit Repository in AWS console
-3. Select the **sample-template.yaml** file then click 'Edit'
-4. Override the original content with the **appsyncapi.yaml** file you just downloaded and click "Commit changes"
-5. Upload the static website files to the responsitory
-6. Wait for CodePipeline to run and detect vulnerabilities.
-7. Once completed, check the completion status of the 'CheckovTestAction' box. It should result in a 'Failed' state
-8. Click on "View in CodeBuild" to see the details of the vulnerabilities
-9. The failed checks are:
+3. Select 'Add file' then "Create file", 
+![image](https://user-images.githubusercontent.com/126644393/225547267-a4a946f0-7535-4df0-9ded-fe2b95e22ca1.png)
+4. Leave the file content empty and enter "**custom-policies/__init__.py**" as the File name
+![image](https://user-images.githubusercontent.com/126644393/225572566-b338c2a0-d877-4e50-9b45-f104a3228c74.png)
+5. Fill in Author name and Email address, then click "Commit changes"
+6. This will create a "__init__.py" file under a "custom-policies" directory. Next, let's follow the same steps to create the custom policy under the same directory. 
+7. Select 'Add file' then "Create file", 
+8. Copy the content from the **AppSyncProtectedByWAF.yaml** file and paste into the file editor
+9. Enter "**custom-policies/AppSyncProtectedByWAF.yaml**" as the File name, fill in Author name and Email address, then click "Commit changes"
+10. Go to CodePipeline following [this link](https://ap-southeast-5.console.aws.amazon.com/codesuite/codepipeline/pipelines/iac-devsecops-pipeline/view?region=ap-southeast-2)
+11. From the left panel, expand the "Build" section, click "Build Projects", then select the "checkov-project" from the main screen
+12. From the top right of the Build Project screen, click on the "Edit" dropdown then "Buildspec"
+![image](https://user-images.githubusercontent.com/126644393/225575452-8964be7d-9cfc-4749-a0ee-37f345b8c3ae.png)
+13. Replace Line 11 with: 
+```- checkov -d . --external-checks-dir=custom-policies```
+![image](https://user-images.githubusercontent.com/126644393/225576359-ff0f00ab-b7b7-4490-beb5-a10c389a6fa0.png)
+14. Click "Update buildspec"
+15. We are now ready to scan CloudFormation scripts with the new custom policy!
+
+### Scan vulnerable AppSync template
+1. Navigate to you CodeCommit Repository in AWS console
+2. Select the **sample-template.yaml** file then click 'Edit'
+3. Override the original content with the **appsyncapi.yaml** file you just downloaded and click "Commit changes"
+4. Upload the static website files to the responsitory
+5. Wait for CodePipeline to run and detect vulnerabilities.
+6. Once completed, check the completion status of the 'CheckovTestAction' box. It should result in a 'Failed' state
+7. Click on "View in CodeBuild" to see the details of the vulnerabilities
+8. The failed checks are:
 - Check: CKV_AWS_119: "Ensure DynamoDB Tables are encrypted using a KMS Customer Managed CMK"
 - Check: CKV_AWS_28: "Ensure Dynamodb point in time recovery (backup) is enabled"
-10. Next we will fix these issues in our CloudFormation template and upload the fixed version to CodeCommit Repository
+9. Next we will fix these issues in our CloudFormation template and upload the fixed version to CodeCommit Repository
 
 ### Fix vulnerabilities in AppSync template
 1. Navigate to you CodeCommit Repository in AWS console
