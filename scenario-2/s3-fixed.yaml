@@ -63,13 +63,9 @@ Resources:
             ResponseCode: 200
             ResponsePagePath: /index.html
         HttpVersion: http2
-        #Aliases:
-        #  - example.com
         ViewerCertificate:
-          # AcmCertificateArn: "arn:aws:acm:us-east-1:Id-of-IAM-user:certificate/1xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxx"
           CloudFrontDefaultCertificate: true
           MinimumProtocolVersion: TLSv1.2_2021
-          # SslSupportMethod: sni-only
         DefaultCacheBehavior:
           AllowedMethods:
             - DELETE
@@ -88,7 +84,7 @@ Resources:
           ViewerProtocolPolicy: redirect-to-https
         Logging:
           Bucket: "logging-bucket-${AWS::AccountId}.s3.amazonaws.com"
-        WebACLId: "arn:aws:wafv2:us-east-1:549319014430:global/webacl/waf-security-automation/692db26e-385d-4156-b9f6-ed160261c8ed"
+        WebACLId: "arn:aws:wafv2:us-east-1:${AWS::AccountId}:global/webacl/waf-security-automation/692db26e-385d-4156-b9f6-ed160261c8ed"
   
   BucketPolicy:
     Type: AWS::S3::BucketPolicy
