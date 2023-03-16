@@ -59,9 +59,9 @@ In the popup window, clear the Branch name by clicking on the cross icon next to
 ![image](https://user-images.githubusercontent.com/126644393/225553148-e15e52a5-3067-474b-a055-95c42004e881.png)
 9.Wait for CodePipeline to finish. This should take around 2 minutes. 
 11. Once completed, you can click on "Details" in the "CheckovTestAction" box to check the Checkov scan results. 
-<img width="272" alt="image" src="https://user-images.githubusercontent.com/126644393/225557374-54afd4d2-b238-423a-8cff-a23b72f749e9.png">
+<img alt="image" src="https://user-images.githubusercontent.com/126644393/225557374-54afd4d2-b238-423a-8cff-a23b72f749e9.png">
 12. The results will include number of passed checks and failed checks, and line numbers of the infrastructure code that failed specific policy. The sample CloudFormation template should not have any vulnerabilities and the vulnerability stage should succeed without any failures.
-![image](https://user-images.githubusercontent.com/126644393/225558759-9e572290-7d9a-4617-8c0b-f3cbf8e93521.png)
+<img alt="image" src="https://user-images.githubusercontent.com/126644393/225558759-9e572290-7d9a-4617-8c0b-f3cbf8e93521.png">
 
 
 ## Scenario 1 - EC2 instance with public IP, unencrypted disk and open security group
