@@ -203,7 +203,62 @@ In this scenario, we will create a custom policy to ensure AppSnync is protected
 
 ### Import vulnerabilities to Security Hub
 1. Download the files from the "additional-exercises" folder
-2. Import the **ImportVulToSecurityHub.zip** file to Lambda. The lambda function will be used with the DevSecOps pipeline to export the findings to SecurityHub.
-3. Upload the **buildspec-checkov.yml** file to your CodeCommit Repository
+2. Import the **ImportVulToSecurityHub.zip** file to Lambda. 
+- Function name: ImportVulToSecurityHub
+- Runtime: Python 3.9
+4. The lambda function will be used with the DevSecOps pipeline to export the findings to SecurityHub.
+5. Upload the **buildspec-checkov.yml** file to your CodeCommit Repository
+6. Go to CodePipeline following [this link](https://ap-southeast-5.console.aws.amazon.com/codesuite/codepipeline/pipelines/iac-devsecops-pipeline/view?region=ap-southeast-2)
+7. From the left panel, expand the "Build" section, click "Build Projects", then select the "checkov-project" from the main screen
+8. From the top right of the Build Project screen, click on the "Edit" dropdown then "Buildspec"
+![image](https://user-images.githubusercontent.com/126644393/225575452-8964be7d-9cfc-4749-a0ee-37f345b8c3ae.png)
+9. Select "Use a buildspec file" and enter "buildspec-checkov.yml" as Buildspec name
+![image](https://user-images.githubusercontent.com/126644393/225590668-0711b989-2b7d-46d0-a3f2-ab9bdbcc758d.png)
+10. Create a S3 bucket in your current region called "**logging-bucket-<Your Account ID>**" and enable ACL
 
+  
 ### Use CodePipeline to deploy resources in Scenario 1-3
+
+#### Update CodePipeline
+1. Go to CodePipeline following [this link](https://ap-southeast-5.console.aws.amazon.com/codesuite/codepipeline/pipelines/iac-devsecops-pipeline/view?region=ap-southeast-2)
+2. Click "Edit", then add a new stage at the bottom called "Deploy"
+3. Add an action in the Deploy stage using below details:
+  - Action name: CreateStack
+  - Action provider: AWS CloudFormation Stack Instances
+  - Input artifacts: SourceArtifact
+  - Deployment targets: SourceArtifact::accounts.txt
+
+  ![image](https://user-images.githubusercontent.com/126644393/225597169-d68abb0a-15be-42af-b376-56c93dd5cdaf.png)
+
+4. Click "done" and Save the pipeline
+  
+#### Scenario 1
+1.Download the files from the "scenario-2" folder 
+2. Navigate to you CodeCommit Repository in AWS console
+3. Select the **sample-template.yaml** file then click 'Edit'
+4. Override the original content with the **ec2-fixed.yaml** file you just downloaded and click "Commit changes"
+5. Wait for CodePipeline to complete. 
+6. Once completed, navigate to the EC2 console and validate the EC2 instance created by CodePipeline
+  
+#### Scenario 2
+1.Download the files from the "scenario-2" folder 
+2. Create a S3 bucket in **us-east-1** region called "waf-logging-bucket--<Your Account ID>"
+3. Switch to **us-east-1** region, and deploy the **aws-waf-security-automations.template** in CloudFormation console. This CloudFormation template will install a WAF that can be used to protect resources created in Scenario 2 and 4. Once completed, note down the ARN of the WAF. 
+4. Open s3-fixed.yaml, replace Line 87 with ARN of the WAF you just created
+  ```WebACLId: "arn:aws:wafv2:us-east-1:${AWS::AccountId}:global/webacl/waf-security-automation/692db26e-385d-4156-b9f6-ed160261c8ed"```
+5. Navigate to you CodeCommit Repository in AWS console
+6. Select the **sample-template.yaml** file then click 'Edit'
+7. Override the original content with the **s3-fixed.yaml** file you just downloaded and click "Commit changes"
+8. Wait for CodePipeline to complete. 
+9. Once completed, navigate to the S3 bucket created by the CodePipeline, upload the "**index.html**" file you just downloaded to the bucket
+10. Go to CloudFront, click on the Distribution created by CodePipeline, you should be able to access the webpage using the Distribution domain name
+<img alt="image" src="https://user-images.githubusercontent.com/126644393/225596138-c4335c84-68c3-4e41-af20-b1a0053441f5.png">
+
+
+#### Scenario 3
+1.Download the files from the "scenario-3" folder 
+2. Navigate to you CodeCommit Repository in AWS console
+3. Select the **sample-template.yaml** file then click 'Edit'
+4. Override the original content with the **dynamodb-fixed.yaml** file you just downloaded and click "Commit changes"
+5. Wait for CodePipeline to complete. 
+6. Once completed, navigate to the DynamoDB console and validate the database created by CodePipeline
