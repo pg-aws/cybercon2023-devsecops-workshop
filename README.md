@@ -6,7 +6,7 @@
 2. [Lab Envrionment Setup](#lab-envrionment-setup)
 3. [Initialise Lab](#Initialise-Lab)
 4. [Check Pipeline](#Check-Pipeline)
-5. [Scenario 1 - EC2 instance with public IP, unencrypted disk and open security group](#Scenario 1 - EC2 instance with public IP, unencrypted disk and open security group)
+5. [Scenario 1 - EC2 instance with public IP, unencrypted disk and open security group](#Scenario-1---EC2-instance-with-public-IP,-unencrypted-disk-and-open-security-group)
 6. [Scenario 2 - S3 bucket with public access and incoming traffic from any IP address](#Scenario 2 - S3 bucket with public access and incoming traffic from any IP address)
 7. [Scenario 3 - Essential 8 control violations](#Scenario 3 - Essential 8 control violations)
 8. [Scenario 4 - Custom policies](#Scenario 4 - Custom policies)
