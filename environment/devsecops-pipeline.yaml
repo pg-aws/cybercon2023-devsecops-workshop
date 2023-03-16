@@ -1,0 +1,166 @@
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  CodeRepo:
+    Type: AWS::CodeCommit::Repository
+    Properties:
+      RepositoryName: cloudformation-checkov-test
+
+  PipelineArtifactBucket:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: !Sub "artifacts-bucket-${AWS::AccountId}-${AWS::Region}"
+  CodePipeline:
+    Type: "AWS::CodePipeline::Pipeline"
+    Properties:
+      Name: "iac-devsecops-pipeline"
+      RoleArn: !GetAtt CodePipelineRole.Arn
+      Stages:
+        - Name: SourceAction
+          Actions:
+            - Name: "SourceCodeAction"
+              ActionTypeId:
+                Category: Source
+                Owner: AWS
+                Version: 1
+                Provider: CodeCommit
+              OutputArtifacts:
+                - Name: SourceArtifact
+              Configuration:
+                RepositoryName: !GetAtt CodeRepo.Name
+                BranchName: main
+                PollForSourceChanges: "false"
+        - Name: "Test"
+          Actions:
+            - Name: "CheckovTestAction"
+              ActionTypeId:
+                Category: Test
+                Owner: AWS
+                Version: "1"
+                Provider: CodeBuild
+              InputArtifacts:
+                - Name: "SourceArtifact"
+              Configuration:
+                ProjectName: !Ref CheckovProjectName
+      ArtifactStore:
+        Type: S3
+        Location: !Ref PipelineArtifactBucket
+  CodePipelineRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: codepipeline.amazonaws.com
+            Action: "sts:AssumeRole"
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/AWSCodeBuildAdminAccess"
+      Path: "/"
+      Policies:
+        - PolicyName: "CodePipelinePolicy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "s3:GetObject"
+                  - "s3:GetObjectVersion"
+                  - "s3:GetBucketVersioning"
+                  - "s3:PutObject"
+                  - "s3:PutObjectVersionAcl"
+                  - "s3:ListBucket"
+                Resource:
+                  - !Sub "arn:aws:s3:::${PipelineArtifactBucket}/*"
+                  - !Sub "arn:aws:s3:::${PipelineArtifactBucket}"
+              - Effect: Allow
+                Action:
+                  - "codebuild:StartBuild"
+                Resource:
+                  - !Sub "arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:project/${CheckovProjectName}"
+              - Effect: Allow
+                Action:
+                  - "codecommit:Get*"
+                  - "codecommit:UploadArchive"
+                Resource:
+                  - !GetAtt CodeRepo.Arn
+  CheckovProjectName:
+    Type: "AWS::CodeBuild::Project"
+    Properties:
+      Name: "checkov-project"
+      ServiceRole: !GetAtt CheckovProjectRole.Arn
+      Artifacts:
+        Type: CODEPIPELINE
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: "aws/codebuild/standard:6.0"
+        EnvironmentVariables:
+          - Name: "CHECKOV_VERSION"
+            Value: "latest"
+          - Name: "ARTIFACTS_BUCKET"
+            Value: !Ref PipelineArtifactBucket
+          - Name: "ARTIFACTS_KEY"
+            Value: "checkov-output/checkov-report-${CODEBUILD_BUILD_ID}.json"
+      Source:
+        Type: CODEPIPELINE
+        BuildSpec: |
+          version: 0.2
+
+          phases:
+            install:
+              runtime-versions:
+                python: 3.10
+              commands:
+                - pip install checkov
+            build:
+              commands:
+                - checkov -d .
+
+  CheckovProjectRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: codebuild.amazonaws.com
+            Action: "sts:AssumeRole"
+      Path: "/"
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/AWSCloudFormationFullAccess"
+        - "arn:aws:iam::aws:policy/service-role/AWSLambdaRole"
+      Policies:
+        - PolicyName: "CheckovPolicy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "s3:PutObject"
+                Resource: !Sub "arn:aws:s3:::${PipelineArtifactBucket}/checkov-output/*"
+              - Effect: Allow
+                Action:
+                  - "s3:GetObject"
+                  - "s3:GetObjectVersion"
+                  - "s3:GetBucketVersioning"
+                  - "s3:PutObject"
+                  - "s3:PutObjectVersionAcl"
+                  - "s3:ListBucket"
+                Resource:
+                  - !Sub "arn:aws:s3:::${PipelineArtifactBucket}/*"
+                  - !Sub "arn:aws:s3:::${PipelineArtifactBucket}"
+              - Effect: Allow
+                Action:
+                  - "codebuild:StartBuild"
+                Resource:
+                  - !Sub "arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:project/checkov-project"
+              - Effect: Allow
+                Action:
+                  - "logs:CreateLogGroup"
+                  - "logs:CreateLogStream"
+                  - "logs:PutLogEvents"
+                Resource:
+                  - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/checkov-project"
+                  - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/checkov-project:*"

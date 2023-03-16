@@ -1,0 +1,38 @@
+#  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+##  SPDX-License-Identifier: MIT-0
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+        python: 3.10
+    commands:
+      - echo "in the install phase"
+      - echo "installing checkov"
+      - pip install checkov
+    finally:
+      - echo This always runs even if the login command fails   
+  pre_build:
+    commands:
+      - echo "inside pre_build stage"
+      - echo "stage pre_build completed"
+  build:
+    commands:
+      - echo "inside build stage, begin checkov IaC test"
+      - cd $CODEBUILD_SRC_DIR
+      - checkov -d . --external-checks-dir=custom-policies -o json > checkov-results.json
+      - echo "inside build stage, completed checkov IaC test"
+
+  post_build:
+    commands:
+      - | 
+        jq "{ \"messageType\": \"CodeScanReport\", \"reportType\": \"checkov\", \
+        \"createdAt\": $(date +\"%Y-%m-%dT%H:%M:%S.%3NZ\"), \"source_repository\": env.CODEBUILD_SOURCE_REPO_URL, \
+        \"source_branch\": env.CODEBUILD_SOURCE_VERSION, \
+        \"build_id\": env.CODEBUILD_BUILD_ID, \
+        \"source_commitid\": env.CODEBUILD_RESOLVED_SOURCE_VERSION, \
+        \"report\": . }" checkov-results.json > payload.json
+      - aws lambda invoke --function-name ImportVulToSecurityHub --cli-binary-format raw-in-base64-out --payload file://payload.json lambda-output.json && echo "LAMBDA_SUCCEDED" || echo "LAMBDA_FAILED"
+      - printf '[{"name":"hello-k8s","imageUri":"%s"}]' $REPOSITORY_URI:$TAG > build.json
+artifacts:
+  type: zip
+  files: '**/*'

@@ -1,0 +1,107 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: A template for static hosting using S3 bucket and CloudFront
+
+Outputs:
+  S3BucketName:
+    Value:
+      Ref: S3Bucket
+
+  OriginAccessControl:
+    Value:
+      Ref: CloudFrontOriginAccessControl
+
+  CloudFrontDist:
+    Value:
+      Ref: CloudFrontDistribution
+
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: Private
+      BucketName: "static-hosting-demo-2"
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      VersioningConfiguration:
+        Status: Enabled
+      LoggingConfiguration:
+        DestinationBucketName: "logging-bucket-549319014430"
+        LogFilePrefix: testing-logs  
+        
+  CloudFrontOriginAccessControl:
+    Type: AWS::CloudFront::OriginAccessControl
+    Properties:
+      OriginAccessControlConfig:
+        Description: "origin access control(OAC) for allowing cloudfront to access S3 bucket"
+        Name: static-hosting-OAC
+        OriginAccessControlOriginType: s3
+        SigningBehavior: always
+        SigningProtocol: sigv4
+
+  CloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    DependsOn:
+      - S3Bucket
+    Properties:
+      DistributionConfig:
+        Origins:
+          - DomainName: "static-hosting-demo-2.s3.ap-southeast-2.amazonaws.com"
+            Id: static-hosting
+            S3OriginConfig:
+              OriginAccessIdentity: ""
+            OriginAccessControlId: !GetAtt CloudFrontOriginAccessControl.Id
+        Enabled: "true"
+        DefaultRootObject: index.html
+        CustomErrorResponses:
+          - ErrorCode: 404
+            ResponseCode: 200
+            ResponsePagePath: /index.html
+          - ErrorCode: 403
+            ResponseCode: 200
+            ResponsePagePath: /index.html
+        HttpVersion: http2
+        #Aliases:
+        #  - example.com
+        ViewerCertificate:
+          # AcmCertificateArn: "arn:aws:acm:us-east-1:Id-of-IAM-user:certificate/1xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxx"
+          CloudFrontDefaultCertificate: true
+          MinimumProtocolVersion: TLSv1.2_2021
+          # SslSupportMethod: sni-only
+        DefaultCacheBehavior:
+          AllowedMethods:
+            - DELETE
+            - GET
+            - HEAD
+            - OPTIONS
+            - PATCH
+            - POST
+            - PUT
+          Compress: true
+          TargetOriginId: static-hosting
+          ForwardedValues:
+            QueryString: "false"
+            Cookies:
+              Forward: none
+          ViewerProtocolPolicy: redirect-to-https
+        Logging:
+          Bucket: "logging-bucket-549319014430.s3.amazonaws.com"
+        WebACLId: "arn:aws:wafv2:us-east-1:549319014430:global/webacl/waf-security-automation/692db26e-385d-4156-b9f6-ed160261c8ed"
+  
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: "static-hosting-demo-2"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: "cloudfront.amazonaws.com"
+            Action: "s3:GetObject"
+            Resource: "arn:aws:s3:::static-hosting-demo-2/*"
+            Condition:
+              StringEquals:
+                AWS:SourceArn: !Sub "arn:aws:cloudfront::${AWS::AccountId}:distribution/${CloudFrontDistribution}"
