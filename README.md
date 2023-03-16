@@ -214,7 +214,7 @@ In this scenario, we will create a custom policy to ensure AppSnync is protected
 ![image](https://user-images.githubusercontent.com/126644393/225575452-8964be7d-9cfc-4749-a0ee-37f345b8c3ae.png)
 9. Select "Use a buildspec file" and enter "buildspec-checkov.yml" as Buildspec name
 ![image](https://user-images.githubusercontent.com/126644393/225590668-0711b989-2b7d-46d0-a3f2-ab9bdbcc758d.png)
-10. Create a S3 bucket in your current region called "**logging-bucket-<Your Account ID>**" and enable ACL
+10. Create a S3 bucket in your current region called "**logging-bucket-[Your Account ID]**" and enable ACL
 
   
 ### Use CodePipeline to deploy resources in Scenario 1-3
@@ -242,7 +242,7 @@ In this scenario, we will create a custom policy to ensure AppSnync is protected
   
 #### Scenario 2
 1.Download the files from the "scenario-2" folder 
-2. Create a S3 bucket in **us-east-1** region called "waf-logging-bucket--<Your Account ID>"
+2. Create a S3 bucket in **us-east-1** region called "waf-logging-bucket-[our Account ID]"
 3. Switch to **us-east-1** region, and deploy the **aws-waf-security-automations.template** in CloudFormation console. This CloudFormation template will install a WAF that can be used to protect resources created in Scenario 2 and 4. Once completed, note down the ARN of the WAF. 
 4. Open s3-fixed.yaml, replace Line 87 with ARN of the WAF you just created
   ```WebACLId: "arn:aws:wafv2:us-east-1:${AWS::AccountId}:global/webacl/waf-security-automation/692db26e-385d-4156-b9f6-ed160261c8ed"```
