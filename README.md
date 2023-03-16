@@ -10,6 +10,7 @@
 6. [Scenario 2 - S3 bucket with public access and incoming traffic from any IP address](#scenario-2---s3-bucket-with-public-access-and-incoming-traffic-from-any-ip-address)
 7. [Scenario 3 - Essential 8 control violations](#scenario-3---essential-8-control-violations)
 8. [Scenario 4 - Custom policies](#scenario-4---custom-policies)
+9. [Additional Exercises](#additional-exercises)
 
 ## Workshop Instructions
 Welcome to "Integrating Security and Compliance in Infrastructure-as-Code" workshop!
@@ -28,7 +29,8 @@ For building the CI/CD pipeline, you will use AWS managed services “AWS CodeCo
 [AWS CodeBuild](https://aws.amazon.com/codebuild/) – A fully managed continuous integration service that compiles source code, runs tests, and produces software packages that are ready to deploy.
 [AWS CodePipeline](https://aws.amazon.com/codepipeline/) – A fully managed continuous delivery service that helps you automate your release pipelines for fast and reliable application and infrastructure updates.
 
-Below is the architecture diagram of our DevSecOps pipeline.
+Below is the architecture diagram of our DevSecOps pipeline. The diagram includes a CloudFormation Stack Instance that deploys the cloud recourses to an AWS account. For simplicity, in this workshop we will just perform vulnerability scanning of the infrastructure code. You can follow the instructions in  [Additional Exercises](#additional-exercises) to add deployment and other features to the DevSecOps pipeline in your own time. 
+
 ![IaC DevSecOps Pipeline Architecture-Lab](https://user-images.githubusercontent.com/126644393/225544261-9257d471-d532-4ddc-9399-86b992f1c3c3.png)
 
 ## Initialise Lab
@@ -102,7 +104,28 @@ This will automatically trigger the pipeline and go through the vulnerability sc
 4. Wait for CodePipeline to run and detect vulnerabilities. This should take around x minutes.
 5. Once completed, check the completion status of the 'Test Action'. It should result in a 'Succeeded' state.
 6. Click on "View in CodeBuild" to see the details of the scan results
-7. Navigate to S3 console and validate that the instance has been successfully provisioned
 
 ## Scenario 4 - Custom policies
 
+### Scan vulnerable AppSync template
+1. From this project download the **dynamoDB.yaml** and the static website files
+2. Navigate to you CodeCommit Repository in AWS console
+3. Select 'Add file' then "Upload file", choose the  **dynamoDB.yaml** file you just downloaded and click "Commit changes"
+4. Upload the static website files to the responsitory
+5. Wait for CodePipeline to run and detect vulnerabilities. This should take around x minutes.
+6. Once completed, check the completion status of the 'Test Action'. It should result in a 'Failed' state
+7. Click on "View in CodeBuild" to see the details of the vulnerabilities
+
+### Fix vulnerabilities in AppSync template
+1. Navigate to you CodeCommit Repository in AWS console
+2. Select the **AppSyncAPI.yaml** file then click 'Edit'
+3. Override the original content with the **AppSyncAPI-fixed.yaml** file from this project and click "Commit changes"
+4. Wait for CodePipeline to run and detect vulnerabilities. This should take around x minutes.
+5. Once completed, check the completion status of the 'Test Action'. It should result in a 'Succeeded' state.
+6. Click on "View in CodeBuild" to see the details of the scan results
+
+## Additional Exercises
+
+### Import vulnerabilities to Security Hub
+
+### Use CodePipeline to deploy resources in Scenario 1-4
