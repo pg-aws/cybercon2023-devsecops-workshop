@@ -13,10 +13,23 @@
 
 ## Workshop Instructions
 Welcome to "Integrating Security and Compliance in Infrastructure-as-Code" workshop!
-In this workshop you will learn to use CodePipeline and Checkov to detect and remediate security issues or misconfigurations in your infrastructure code.
+In this workshop you will learn to incorporate security guard rials in the CI/CD Pipeline to deliver infrastructure code with high bar of security considerations.
+
+This workshop includes a DevSecOps CI/CD pipeline to deploy cloud resources. You will use AWS services to provide the core CI/CD platform, and an open-source tool Checkov to perform the vulnerability scanning of the infrastructure code.
 
 ## Lab Envrionment Setup
+In this section, you will deploy the DevSecOps pipeline and initiate it. You will use the CloudFormation templates provided in each scenario to trigger the pipeline.
+
 From this project download the **lambda.zip** and import to Lambda. The lambda function will be used with the DevSecOps pipeline to export the findings to SecurityHub.
+
+For building the CI/CD pipeline, you will use AWS managed services “AWS CodeCommit”, “AWS CodeBuild”, and “AWS CodePipeline”. For additional information on AWS DevOps tools and services, please refer to [AWS DevOps](https://aws.amazon.com/devops/).
+
+[AWS CodeCommit](https://aws.amazon.com/devops/) – A fully managed source control service that hosts secure Git-based repositories.
+[AWS CodeBuild](https://aws.amazon.com/codebuild/) – A fully managed continuous integration service that compiles source code, runs tests, and produces software packages that are ready to deploy.
+[AWS CodePipeline](https://aws.amazon.com/codepipeline/) – A fully managed continuous delivery service that helps you automate your release pipelines for fast and reliable application and infrastructure updates.
+
+Below is the architecture diagram of our DevSecOps pipeline.
+![IaC DevSecOps Pipeline Architecture-Lab](https://user-images.githubusercontent.com/126644393/225544261-9257d471-d532-4ddc-9399-86b992f1c3c3.png)
 
 ## Initialise Lab
 From this project download the **CheckovPipeline.yaml** and deploy the pipeline in CloudFormation console.
