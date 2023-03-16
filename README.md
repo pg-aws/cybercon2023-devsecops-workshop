@@ -51,7 +51,9 @@ This will automatically trigger the pipeline and go through the vulnerability sc
 ### Scan vulnerable EC2 template
 1. From this project download the **ec2.yaml**
 2. Navigate to you CodeCommit Repository in AWS console
+![image](https://user-images.githubusercontent.com/126644393/225547486-03187fe0-e016-42c6-8ac9-3a992731b225.png)
 3. Select 'Add file' then "Upload file", choose the  **ec2.yaml** file you just downloaded and click "Commit changes"
+![image](https://user-images.githubusercontent.com/126644393/225547267-a4a946f0-7535-4df0-9ded-fe2b95e22ca1.png)
 4. Wait for CodePipeline to run and detect vulnerabilities. This should take around x minutes.
 5. Once completed, check the completion status of the 'Test Action'. It should result in a 'Failed' state.
 6. Click on "View in CodeBuild" to see the details of the vulnerabilities
