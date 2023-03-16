@@ -185,9 +185,9 @@ In this scenario, we will create a custom policy to ensure AppSnync is protected
 5. Wait for CodePipeline to run and detect vulnerabilities.
 6. Once completed, check the completion status of the 'CheckovTestAction' box. It should result in a 'Failed' state
 7. Click on "View in CodeBuild" to see the details of the vulnerabilities
-8. The failed checks are:
-- Check: CKV_AWS_119: "Ensure DynamoDB Tables are encrypted using a KMS Customer Managed CMK"
-- Check: CKV_AWS_28: "Ensure Dynamodb point in time recovery (backup) is enabled"
+8. The scan result now includes the failed check we just created: 
+![image](https://user-images.githubusercontent.com/126644393/225578385-0f7a889b-9e69-45dc-a140-bc2169b08a25.png)
+
 9. Next we will fix these issues in our CloudFormation template and upload the fixed version to CodeCommit Repository
 
 ### Fix vulnerabilities in AppSync template
