@@ -223,10 +223,10 @@ In this scenario, we will create a custom policy to ensure AppSnync is protected
 - Upload **ImportVulToSecurityHub.zip** to the Lambda function you just created
 ![image](https://user-images.githubusercontent.com/126644393/225844480-1d3369a0-48ca-4c2a-ac1e-0fc4ee641d5a.png)
 
-Move the python files to the root folder. The file structure should look like the screenshot below:
+Move the python files to the root folder. The file structure should look like the screenshot below: <br />
 ![image](https://user-images.githubusercontent.com/126644393/225810501-8b1ea8e7-5818-4b17-a029-e7fc5fa9d3fc.png)
 
-Click on "Deploy" to apply the changes.
+Click on "Deploy" to apply the changes. <br />
 ![image](https://user-images.githubusercontent.com/126644393/225844772-f9376d4a-7cf6-404b-9e64-48eeb83fc4fa.png)
 
 3. Once created, go to "Code" tab, scroll down to the “Runtime settings” section and click “Edit”
