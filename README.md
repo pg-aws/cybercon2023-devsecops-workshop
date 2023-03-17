@@ -38,7 +38,11 @@ Let’s deploy the DevSecOps pipeline using the CloudFormation template provided
 
 From the "environment" folder download the **devsecops-pipeline.yaml** and deploy the pipeline in CloudFormation console.
 
-Once the CloudFormation template is deployed successfully, you will see the DevSecOps pipeline under AWS CodePipeline. Below is the screenshot of the pipeline after a successful execution. Please note, you may see a failed status because you haven’t initiated your pipeline yet.
+Once the CloudFormation template is deployed successfully, you will see the DevSecOps pipeline under AWS CodePipeline. 
+
+Below is the screenshot of the pipeline after a successful execution. Please note, you may see a failed status because you haven’t initiated your pipeline yet. 
+
+Before initiating the pipeline, let's first complete the steps in the [Check Pipeline](#Check-Pipeline) section to upload a sample CloudFormation script to your CodeCommit repository, so the pipeline will have something to test and deploy.
 
 ![image](https://user-images.githubusercontent.com/126644393/225551274-6661ae1f-7826-45f1-9188-50df5e54ac49.png)
 
@@ -209,7 +213,7 @@ In this scenario, we will create a custom policy to ensure AppSnync is protected
 - Function name: ImportVulToSecurityHub
 - Runtime: Python 3.9
 - Execution role: Create a new role with basic Lambda permissions
-- Import the **ImportVulToSecurityHub.zip** file to the Lambda function you just created
+- Import **ImportVulToSecurityHub.zip** to the Lambda function you just created
 
 The file structure should look like the screenshot below:
 ![image](https://user-images.githubusercontent.com/126644393/225810501-8b1ea8e7-5818-4b17-a029-e7fc5fa9d3fc.png)
