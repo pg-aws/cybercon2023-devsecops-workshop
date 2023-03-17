@@ -252,6 +252,12 @@ Go to "Configuration" tab, select "Permissions" from the left panel and click on
 12. Now when the CodePipeline runs again, you will be able to view all Findings (if there are any) in Security Hub!
 ![image](https://user-images.githubusercontent.com/126644393/225795096-1e4603cf-f089-4fb4-b678-8735debb38ad.png)
 
+To test this out:
+1. Navigate to you CodeCommit Repository in AWS console
+2. Select the **sample-template.yaml** file then click 'Edit'
+3. Override the original content with the **s3.yaml** file you downloaded previously and click "Commit changes"
+4. Wait for CodePipeline to complete. 
+5. Once completed, navigate to Security Hub console, select 'Findings' from the left panel and check out the details of the Checkov Findings.
   
 ### Use CodePipeline to deploy resources in Scenario 1-3
 
