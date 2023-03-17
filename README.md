@@ -240,17 +240,21 @@ Go to "Configuration" tab, select "Permissions" from the left panel and click on
 
 #### Update CodePipeline
 1. Go to CodePipeline following [this link](https://ap-southeast-5.console.aws.amazon.com/codesuite/codepipeline/pipelines/iac-devsecops-pipeline/view?region=ap-southeast-2)
-2. Click "Edit", then add a new stage at the bottom called "Deploy"
-3. Add an action in the Deploy stage using below details:
+2. Click "Edit", then add a new stage after **Test** stage called "Deploy"
+3. create an Action Group
+4. Add an action in the Deploy stage using below details:
   - Action name: CreateStack
   - Action provider: AWS CloudFormation Stack Instances
   - Input artifacts: SourceArtifact
   - Deployment targets: SourceArtifact::accounts.txt
-
+  - Deploy Region: select your local region
   ![image](https://user-images.githubusercontent.com/126644393/225597169-d68abb0a-15be-42af-b376-56c93dd5cdaf.png)
   
 4. Click "done" and Save the pipeline
-5. Create a file called "accounts.txt", add your AWS account ID to the file, and upload the file to CodeCommit Repository
+5. Create a file called "accounts.txt", add your AWS account ID to the file in JSON format (see example below), and upload the file to CodeCommit Repository.
+'''[
+    "111111222222"
+]'''
   
 ### Scenario 1
 1. Download the files from the "scenario-2" folder
