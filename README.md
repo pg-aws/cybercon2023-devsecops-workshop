@@ -83,7 +83,7 @@ In the popup window, clear the Branch name by clicking on the cross icon next to
 
 ### Scan vulnerable EC2 template
 1. Download the files from the "scenario-1" folder
-2. Navigate to you CodeCommit Repository in AWS console following [this link](https://ap-southeast-2.console.aws.amazon.com/codesuite/codecommit/repositories/cloudformation-checkov-test/browse?region=ap-southeast-2)
+2. Navigate to your CodeCommit Repository in AWS console following [this link](https://ap-southeast-2.console.aws.amazon.com/codesuite/codecommit/repositories/cloudformation-checkov-test/browse?region=ap-southeast-2)
 3. Select the **sample-template.yaml** file then click 'Edit'
 4. Override the original content with the **ec2.yaml** file you just downloaded and click "Commit changes"
 ![image](https://user-images.githubusercontent.com/126644393/225560291-5d6fccbd-2cb4-4a50-a686-e6f4b7a9241b.png)
@@ -100,7 +100,7 @@ In the popup window, clear the Branch name by clicking on the cross icon next to
 8. Next we will fix these issues in our CloudFormation template and upload the fixed version to CodeCommit Repository
 
 ### Fix vulnerabilities in EC2 template
-1. Navigate to you CodeCommit Repository in AWS console
+1. Navigate to your CodeCommit Repository in AWS console
 2. Select the **sample-template.yaml** file then click 'Edit'
 3. Override the original content with the **ec2-fixed.yaml** file you just downloaded and click "Commit changes"
 4. Wait for CodePipeline to run and detect vulnerabilities. 
@@ -112,7 +112,7 @@ In the popup window, clear the Branch name by clicking on the cross icon next to
 
 ### Scan vulnerable S3 template
 1. Download the files from the "scenario-2" folder
-2. Navigate to you CodeCommit Repository in AWS console
+2. Navigate to your CodeCommit Repository in AWS console
 3. Select the **sample-template.yaml** file then click 'Edit'
 4. Override the original content with the **s3.yaml** file you just downloaded and click "Commit changes"
 6. Wait for CodePipeline to run and detect vulnerabilities. 
@@ -129,7 +129,7 @@ In the popup window, clear the Branch name by clicking on the cross icon next to
 10. Next we will fix these issues in our CloudFormation template and upload the fixed version to CodeCommit Repository
 
 ### Fix vulnerabilities in S3 template
-1. Navigate to you CodeCommit Repository in AWS console
+1. Navigate to your CodeCommit Repository in AWS console
 2. Select the **sample-template.yaml** file then click 'Edit'
 3. Override the original content with the **s3-fixed.yaml** file you just downloaded and click "Commit changes"
 4. Wait for CodePipeline to run and detect vulnerabilities. 
@@ -142,7 +142,7 @@ In this scenario, we will scan a CloudFormation template that violates 2 coontro
 
 ### Scan vulnerable DynamoDB template
 1. Download the files from the "scenario-3" folder
-2. Navigate to you CodeCommit Repository in AWS console
+2. Navigate to your CodeCommit Repository in AWS console
 3. Select the **sample-template.yaml** file then click 'Edit'
 4. Override the original content with the **dynamoDB.yaml** file you just downloaded and click "Commit changes"
 6. Wait for CodePipeline to run and detect vulnerabilities. 
@@ -154,7 +154,7 @@ In this scenario, we will scan a CloudFormation template that violates 2 coontro
 10. Next we will fix these issues in our CloudFormation template and upload the fixed version to CodeCommit Repository
 
 ### Fix vulnerabilities in DynamoDB template
-1. Navigate to you CodeCommit Repository in AWS console
+1. Navigate to your CodeCommit Repository in AWS console
 2. Select the **dynamoDB.yaml** file then click 'Edit'
 3. Override the original content with the **dynamoDB-fixed.yaml** file you just downloaded and click "Commit changes"
 4. Wait for CodePipeline to run and detect vulnerabilities.
@@ -170,7 +170,7 @@ In this scenario, we will create a custom policy to ensure AppSnync is protected
 
 ### Setup custom policy
 1. Download the files from the "scenario-4" folder
-2. Navigate to you CodeCommit Repository in AWS console
+2. Navigate to your CodeCommit Repository in AWS console
 3. Select 'Add file' then "Create file", 
 ![image](https://user-images.githubusercontent.com/126644393/225547267-a4a946f0-7535-4df0-9ded-fe2b95e22ca1.png)
 4. Leave the file content empty and enter "**custom-policies/\_\_init\_\_.py**" as the File name
@@ -191,7 +191,7 @@ In this scenario, we will create a custom policy to ensure AppSnync is protected
 15. We are now ready to scan CloudFormation scripts with the new custom policy!
 
 ### Scan vulnerable AppSync template
-1. Navigate to you CodeCommit Repository in AWS console
+1. Navigate to your CodeCommit Repository in AWS console
 2. Select the **sample-template.yaml** file then click 'Edit'
 3. Override the original content with the **appsyncapi.yaml** file you just downloaded and click "Commit changes"
 4. Upload the static website files to the responsitory
@@ -204,7 +204,7 @@ In this scenario, we will create a custom policy to ensure AppSnync is protected
 9. Next we will fix these issues in our CloudFormation template and upload the fixed version to CodeCommit Repository
 
 ### Fix vulnerabilities in AppSync template
-1. Navigate to you CodeCommit Repository in AWS console
+1. Navigate to your CodeCommit Repository in AWS console
 2. Select the **sample-template.yaml** file then click 'Edit'
 3. Override the original content with the **appsyncapi-fixed.yaml** file you just downloaded  and click "Commit changes"
 4. Wait for CodePipeline to run and detect vulnerabilities. 
@@ -253,7 +253,7 @@ Go to "Configuration" tab, select "Permissions" from the left panel and click on
 ![image](https://user-images.githubusercontent.com/126644393/225795096-1e4603cf-f089-4fb4-b678-8735debb38ad.png)
 
 To test this out:
-1. Navigate to you CodeCommit Repository in AWS console
+1. Navigate to your CodeCommit Repository in AWS console
 2. Select the **sample-template.yaml** file then click 'Edit'
 3. Override the original content with the **s3.yaml** file you downloaded previously and click "Commit changes"
 4. Wait for CodePipeline to complete. 
@@ -283,10 +283,10 @@ To test this out:
   
 ### Scenario 1
 1. Download the files from the "scenario-1" folder
-2. Navigate to you CodeCommit Repository in AWS console
+2. Navigate to your CodeCommit Repository in AWS console
 3. Select the **sample-template.yaml** file then click 'Edit'
 4. Override the original content with the **ec2-fixed.yaml** file you just downloaded and click "Commit changes"
-5. Wait for CodePipeline to complete. 
+5. Wait for CodePipeline to complete. This will take around 6 minutes.
 6. Once completed, navigate to the EC2 console and validate the EC2 instance created by CodePipeline
   
 ### Scenario 2
@@ -303,19 +303,19 @@ To test this out:
   ```
   WebACLId: "arn:aws:wafv2:us-east-1:${AWS::AccountId}:global/webacl/waf-security-automation/abcdef-1234-5678-abcd-efghijkixxx"
   ```
-7. Switch back to **ap-southeast-2** region and navigate to you CodeCommit Repository in AWS console
+7. Switch back to **ap-southeast-2** region and navigate to your CodeCommit Repository in AWS console
 8. Select the **sample-template.yaml** file then click 'Edit'
 9. Override the original content with the **s3-fixed.yaml** file you just updated and click "Commit changes"
-10. Wait for CodePipeline to complete. 
-11. Once completed, navigate to the S3 bucket created by the CodePipeline, upload the "**index.html**" file you just downloaded to the bucket
+10. Wait for CodePipeline to complete. This will take around 8 minutes.
+11. Once completed, navigate to the S3 bucket created by the CodePipeline, upload the "**index.html**" file you just downloaded to the S3 bucket
 12. Go to CloudFront, click on the Distribution created by CodePipeline, you should be able to access the webpage using the Distribution domain name
 <img alt="image" src="https://user-images.githubusercontent.com/126644393/225596138-c4335c84-68c3-4e41-af20-b1a0053441f5.png">
 
 
 ### Scenario 3
 1. Download the files from the "scenario-3" folder 
-2. Navigate to you CodeCommit Repository in AWS console
+2. Navigate to your CodeCommit Repository in AWS console
 3. Select the **sample-template.yaml** file then click 'Edit'
 4. Override the original content with the **dynamodb-fixed.yaml** file you just downloaded and click "Commit changes"
-5. Wait for CodePipeline to complete. 
-6. Once completed, navigate to the DynamoDB console and validate the database created by CodePipeline
+5. Wait for CodePipeline to complete. This will take around 8 minutes.
+6. Once completed, navigate to the DynamoDB console and validate the database table created by CodePipeline
