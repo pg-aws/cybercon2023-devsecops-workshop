@@ -238,7 +238,7 @@ In this scenario, we will create a custom policy to ensure AppSnync is protected
   - Deployment targets: SourceArtifact::accounts.txt
 
   ![image](https://user-images.githubusercontent.com/126644393/225597169-d68abb0a-15be-42af-b376-56c93dd5cdaf.png)
-
+  
 4. Click "done" and Save the pipeline
   
 #### Scenario 1
