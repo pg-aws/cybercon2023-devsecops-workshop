@@ -299,7 +299,7 @@ To test this out:
   ```
 5. Navigate to you CodeCommit Repository in AWS console
 6. Select the **sample-template.yaml** file then click 'Edit'
-7. Override the original content with the **s3-fixed.yaml** file you just downloaded and click "Commit changes"
+7. Override the original content with the **s3-fixed.yaml** file you just updated and click "Commit changes"
 8. Wait for CodePipeline to complete. 
 9. Once completed, navigate to the S3 bucket created by the CodePipeline, upload the "**index.html**" file you just downloaded to the bucket
 10. Go to CloudFront, click on the Distribution created by CodePipeline, you should be able to access the webpage using the Distribution domain name
