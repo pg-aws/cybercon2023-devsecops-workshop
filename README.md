@@ -240,6 +240,7 @@ In this scenario, we will create a custom policy to ensure AppSnync is protected
   ![image](https://user-images.githubusercontent.com/126644393/225597169-d68abb0a-15be-42af-b376-56c93dd5cdaf.png)
   
 4. Click "done" and Save the pipeline
+5. Create a file called "accounts.txt", add your AWS account ID to the file, and upload the file to CodeCommit Repository
   
 ### Scenario 1
 1. Download the files from the "scenario-2" folder
