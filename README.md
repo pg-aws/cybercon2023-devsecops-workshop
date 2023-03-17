@@ -210,6 +210,10 @@ In this scenario, we will create a custom policy to ensure AppSnync is protected
 - Runtime: Python 3.9
 - Execution role: Create a new role with basic Lambda permissions
 - Import the **ImportVulToSecurityHub.zip** file to the Lambda function you just created
+
+The file structure should look like the screenshot below: 
+![image](https://user-images.githubusercontent.com/126644393/225810501-8b1ea8e7-5818-4b17-a029-e7fc5fa9d3fc.png)
+
 3. Once created, go to "Code" tab, scroll down to the “Runtime settings” section and click “Edit”
 - Update Handler to: '''import_findings_security_hub.lambda_handler'''
 ![image](https://user-images.githubusercontent.com/126644393/225796690-a03e7229-9903-4dfb-b09f-ec1f908b1d91.png)
