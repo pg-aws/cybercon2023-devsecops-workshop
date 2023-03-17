@@ -19,7 +19,7 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       AccessControl: Private
-      BucketName: "static-hosting-demo-${AWS::AccountId}"
+      BucketName: !Sub "static-hosting-${AWS::AccountId}"
       PublicAccessBlockConfiguration:
         BlockPublicAcls: true
         BlockPublicPolicy: true
@@ -28,7 +28,7 @@ Resources:
       VersioningConfiguration:
         Status: Enabled
       LoggingConfiguration:
-        DestinationBucketName: "logging-bucket-${AWS::AccountId}"
+        DestinationBucketName:  !Sub "logging-bucket-${AWS::AccountId}"
         LogFilePrefix: testing-logs  
         
   CloudFrontOriginAccessControl:
@@ -48,7 +48,7 @@ Resources:
     Properties:
       DistributionConfig:
         Origins:
-          - DomainName: "static-hosting-demo-${AWS::AccountId}.s3.ap-southeast-2.amazonaws.com"
+          - DomainName: !Sub "static-hosting-${AWS::AccountId}.s3.ap-southeast-2.amazonaws.com"
             Id: static-hosting
             S3OriginConfig:
               OriginAccessIdentity: ""
@@ -87,13 +87,13 @@ Resources:
               Forward: none
           ViewerProtocolPolicy: redirect-to-https
         Logging:
-          Bucket: "logging-bucket-${AWS::AccountId}.s3.amazonaws.com"
+          Bucket: !Sub "logging-bucket-${AWS::AccountId}.s3.amazonaws.com"
         WebACLId: "arn:aws:wafv2:us-east-1:${AWS::AccountId}:global/webacl/waf-security-automation/abcdef-1234-5678-abcd-efghijkixxx"
   
   BucketPolicy:
     Type: AWS::S3::BucketPolicy
     Properties:
-      Bucket: "static-hosting-demo-${AWS::AccountId}"
+      Bucket: !Sub "static-hosting-${AWS::AccountId}"
       PolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -101,7 +101,7 @@ Resources:
             Principal:
               Service: "cloudfront.amazonaws.com"
             Action: "s3:GetObject"
-            Resource: "arn:aws:s3:::static-hosting-demo-${AWS::AccountId}/*"
+            Resource: !Sub "arn:aws:s3:::static-hosting-${AWS::AccountId}/*"
             Condition:
               StringEquals:
                 AWS:SourceArn: !Sub "arn:aws:cloudfront::${AWS::AccountId}:distribution/${CloudFrontDistribution}"
