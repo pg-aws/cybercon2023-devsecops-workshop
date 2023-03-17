@@ -205,11 +205,17 @@ In this scenario, we will create a custom policy to ensure AppSnync is protected
 
 ### Import vulnerabilities to Security Hub
 1. Download the files from the "additional-exercises" folder
-2. Import the **ImportVulToSecurityHub.zip** file to Lambda. 
+2. Navigate to Lambda console and create a new function from scratch using below details:
 - Function name: ImportVulToSecurityHub
 - Runtime: Python 3.9
-- Handler: import_findings_security_hub.lambda_handler
-4. The lambda function will be used with the DevSecOps pipeline to export the findings to SecurityHub.
+- Execution role: Create a new role with basic Lambda permissions
+- Import the **ImportVulToSecurityHub.zip** file to the Lambda function you just created
+- Update Handler to: import_findings_security_hub.lambda_handler
+3. Once created, go to "Configuration" tab, select "Permissions" from the left panel and click on the Execution role name
+![image](https://user-images.githubusercontent.com/126644393/225792489-968e8ab4-8561-44d3-bb3e-5005df64fa28.png)
+4. Add AmazonS3FullAccess and AWSSecurityHubFullAccess to the role
+![image](https://user-images.githubusercontent.com/126644393/225792866-8354ed32-5ec7-42de-97d3-a3c92dd71a64.png)
+
 5. Upload the **buildspec-checkov.yml** file to your CodeCommit Repository
 6. Go to CodePipeline following [this link](https://ap-southeast-5.console.aws.amazon.com/codesuite/codepipeline/pipelines/iac-devsecops-pipeline/view?region=ap-southeast-2)
 7. From the left panel, expand the "Build" section, click "Build Projects", then select the "checkov-project" from the main screen
