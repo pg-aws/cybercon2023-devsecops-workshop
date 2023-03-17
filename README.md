@@ -248,20 +248,19 @@ Go to "Configuration" tab, select "Permissions" from the left panel and click on
 3. create an Action Group
 4. Add an action in the Deploy stage using below details:
   - Action name: CreateStack
-  - Action provider: AWS CloudFormation Stack Instances
+  - Action provider: AWS CloudFormation
+  - Region: Asia Pacific (Sydney)
   - Input artifacts: SourceArtifact
-  - Deployment targets: SourceArtifact::accounts.txt
-  - Deploy Region: select your local region
-  ![image](https://user-images.githubusercontent.com/126644393/225597169-d68abb0a-15be-42af-b376-56c93dd5cdaf.png)
+  - Action mode: Create or update a stack
+  - Stack name: [enter a stack name that's unique in your CloudFormation console]
+  - Actifact name: SourceArtifact
+  - File name: ec2.yaml
+  - Role name: arn:aws:iam::549319014430:role/DevSecOps_CloudFormation_ServiceRole
   
-4. Click "done" and Save the pipeline
-5. Create a file called "accounts.txt", add your AWS account ID to the file in JSON format (see example below), and upload the file to CodeCommit Repository.
+![image](https://user-images.githubusercontent.com/126644393/225835520-17daa992-eed2-4a6a-9b3a-1bbfc1716058.png)
+![image](https://user-images.githubusercontent.com/126644393/225835587-9d4c32af-90ab-4cc5-9dba-429192707d68.png)
 
-```
-[
-    "111111222222"
-]
-```
+4. Click "Done" and Save the pipeline
   
 ### Scenario 1
 1. Download the files from the "scenario-2" folder
