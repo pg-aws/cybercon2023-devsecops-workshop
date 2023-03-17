@@ -208,6 +208,7 @@ In this scenario, we will create a custom policy to ensure AppSnync is protected
 2. Import the **ImportVulToSecurityHub.zip** file to Lambda. 
 - Function name: ImportVulToSecurityHub
 - Runtime: Python 3.9
+- Handler: import_findings_security_hub.lambda_handler
 4. The lambda function will be used with the DevSecOps pipeline to export the findings to SecurityHub.
 5. Upload the **buildspec-checkov.yml** file to your CodeCommit Repository
 6. Go to CodePipeline following [this link](https://ap-southeast-5.console.aws.amazon.com/codesuite/codepipeline/pipelines/iac-devsecops-pipeline/view?region=ap-southeast-2)
