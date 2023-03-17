@@ -291,18 +291,24 @@ To test this out:
   
 ### Scenario 2
 1. Download the files from the "scenario-2" folder 
-2. Create a S3 bucket in **us-east-1** region called "waf-logging-bucket-[our Account ID]"
-3. Switch to **us-east-1** region, and deploy the **aws-waf-security-automations.template** in CloudFormation console. This CloudFormation template will install a WAF that can be used to protect resources created in Scenario 2 and 4. Once completed, note down the ARN of the WAF. 
-4. Open **s3-fixed.yaml**, replace Line 87 with ARN of the WAF you just created
+2. Create a S3 bucket in **us-east-1** region called "waf-logging-bucket-[your Account ID]"
+3. Switch to **us-east-1** region, and deploy the **aws-waf-security-automations.template** in CloudFormation console. 
+4. In "Stack Details" page, under "Application Access Log Bucket Name", enter "waf-logging-bucket-[your Account ID]"
+![image](https://user-images.githubusercontent.com/126644393/225849775-54cd23a6-002c-4a12-bdbb-0df1ca01eba9.png)
+
+5. This CloudFormation template will take around 6 minute to complete. It will install a WAF that can be used to protect cloud resources created in Scenario 2 and 4. Once completed, note down the ARN of the WAF from the Outputs tab.
+ ![image](https://user-images.githubusercontent.com/126644393/225854359-46f03ada-d6c6-4b87-b0b5-d8009d9d169f.png)
+
+6. Open **s3-fixed.yaml**, replace Line 91 with ARN of the WAF you just created
   ```
-  WebACLId: "arn:aws:wafv2:us-east-1:${AWS::AccountId}:global/webacl/waf-security-automation/692db26e-385d-4156-b9f6-ed160261c8ed"
+  WebACLId: "arn:aws:wafv2:us-east-1:${AWS::AccountId}:global/webacl/waf-security-automation/abcdef-1234-5678-abcd-efghijkixxx"
   ```
-5. Navigate to you CodeCommit Repository in AWS console
-6. Select the **sample-template.yaml** file then click 'Edit'
-7. Override the original content with the **s3-fixed.yaml** file you just updated and click "Commit changes"
-8. Wait for CodePipeline to complete. 
-9. Once completed, navigate to the S3 bucket created by the CodePipeline, upload the "**index.html**" file you just downloaded to the bucket
-10. Go to CloudFront, click on the Distribution created by CodePipeline, you should be able to access the webpage using the Distribution domain name
+7. Switch back to **ap-southeast-2** region and navigate to you CodeCommit Repository in AWS console
+8. Select the **sample-template.yaml** file then click 'Edit'
+9. Override the original content with the **s3-fixed.yaml** file you just updated and click "Commit changes"
+10. Wait for CodePipeline to complete. 
+11. Once completed, navigate to the S3 bucket created by the CodePipeline, upload the "**index.html**" file you just downloaded to the bucket
+12. Go to CloudFront, click on the Distribution created by CodePipeline, you should be able to access the webpage using the Distribution domain name
 <img alt="image" src="https://user-images.githubusercontent.com/126644393/225596138-c4335c84-68c3-4e41-af20-b1a0053441f5.png">
 
 
