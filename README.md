@@ -319,3 +319,13 @@ To test this out:
 4. Override the original content with the **dynamodb-fixed.yaml** file you just downloaded and click "Commit changes"
 5. Wait for CodePipeline to complete. This will take around 8 minutes.
 6. Once completed, navigate to the DynamoDB console and validate the database table created by CodePipeline
+
+# Conclusion
+
+In this workshop, we built a DevSecOps CI/CD pipeline to scan and deploy insfracture code.
+
+We integrated an open-source scanning tool called Checkov to perform IaC SAST analysis.
+
+We also learnt how AWS Security Hub can be helpful in aggregating all the vulnerability findings from the scanning tool(s). 
+
+Hope you enjoyed the workshop!
