@@ -216,6 +216,7 @@ In this scenario, we will create a custom policy to ensure AppSnync is protected
 
 Go to "Configuration" tab, select "Permissions" from the left panel and click on the Execution role name
 ![image](https://user-images.githubusercontent.com/126644393/225792489-968e8ab4-8561-44d3-bb3e-5005df64fa28.png)
+
 4. Add **AmazonS3FullAccess** and **AWSSecurityHubFullAccess** to the role
 ![image](https://user-images.githubusercontent.com/126644393/225792866-8354ed32-5ec7-42de-97d3-a3c92dd71a64.png)
 
