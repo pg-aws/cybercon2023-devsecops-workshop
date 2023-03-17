@@ -34,7 +34,7 @@ Below is the architecture diagram of our DevSecOps pipeline. The diagram include
 ![IaC DevSecOps Pipeline Architecture-Lab](https://user-images.githubusercontent.com/126644393/225544261-9257d471-d532-4ddc-9399-86b992f1c3c3.png)
 
 ## Initialise Lab
-Let’s deploy the DevSecOps pipeline using the CloudFormation template provided in this project.
+Let’s deploy the DevSecOps pipeline using the CloudFormation template provided in this project. We will be using **ap-southeast-2** region in this workshop, but 
 
 From the "environment" folder download the **devsecops-pipeline.yaml** and deploy the pipeline in CloudFormation console.
 
@@ -55,7 +55,7 @@ Let’s upload a sample CloudFormation script to CodeCommit to test the CodePipe
 3. Select 'Add file' then "Upload file", choose the  **sample-template.yaml** file you just downloaded and click "Commit changes"
 ![image](https://user-images.githubusercontent.com/126644393/225547267-a4a946f0-7535-4df0-9ded-fe2b95e22ca1.png)
 
-4. This will automatically trigger the pipeline and go through the vulnerability scanning stages. You can go to [this link](https://ap-southeast-5.console.aws.amazon.com/codesuite/codepipeline/pipelines/iac-devsecops-pipeline/view?region=ap-southeast-2) to check the running status of your pipeline.
+4. This will automatically trigger the pipeline and go through the vulnerability scanning stages. You can go to [this link](https://ap-southeast-2.console.aws.amazon.com/codesuite/codepipeline/pipelines/iac-devsecops-pipeline/view?region=ap-southeast-2) to check the running status of your pipeline.
 6. If your pipeline does not start automatically, click on the "Edit" button from the top right of the CodePipeline screen, click on "Edit Stage" of the Source Action stage, then click on the edit icon in the "SourceCodeAction" box.
 ![image](https://user-images.githubusercontent.com/126644393/225553148-e15e52a5-3067-474b-a055-95c42004e881.png)
 In the popup window, clear the Branch name by clicking on the cross icon next to it, and select "main" from the dropdown again. This is to ensure any changes on the "main" branch will trigger the CodePipeline.
@@ -173,7 +173,7 @@ In this scenario, we will create a custom policy to ensure AppSnync is protected
 7. Select 'Add file' then "Create file", 
 8. Copy the content from the **AppSyncProtectedByWAF.yaml** file and paste into the file editor
 9. Enter "**custom-policies/AppSyncProtectedByWAF.yaml**" as the File name, fill in Author name and Email address, then click "Commit changes"
-10. Go to CodePipeline following [this link](https://ap-southeast-5.console.aws.amazon.com/codesuite/codepipeline/pipelines/iac-devsecops-pipeline/view?region=ap-southeast-2)
+10. Go to CodePipeline following [this link](https://ap-southeast-2.console.aws.amazon.com/codesuite/codepipeline/pipelines/iac-devsecops-pipeline/view?region=ap-southeast-2)
 11. From the left panel, expand the "Build" section, click "Build Projects", then select the "checkov-project" from the main screen
 12. From the top right of the Build Project screen, click on the "Edit" dropdown then "Buildspec"
 ![image](https://user-images.githubusercontent.com/126644393/225575452-8964be7d-9cfc-4749-a0ee-37f345b8c3ae.png)
@@ -229,7 +229,7 @@ Go to "Configuration" tab, select "Permissions" from the left panel and click on
 ![image](https://user-images.githubusercontent.com/126644393/225792866-8354ed32-5ec7-42de-97d3-a3c92dd71a64.png)
 
 5. Upload the **buildspec-checkov.yml** file to your CodeCommit Repository
-6. Go to CodePipeline following [this link](https://ap-southeast-5.console.aws.amazon.com/codesuite/codepipeline/pipelines/iac-devsecops-pipeline/view?region=ap-southeast-2)
+6. Go to CodePipeline following [this link](https://ap-southeast-2.console.aws.amazon.com/codesuite/codepipeline/pipelines/iac-devsecops-pipeline/view?region=ap-southeast-2)
 7. From the left panel, expand the "Build" section, click "Build Projects", then select the "checkov-project" from the main screen
 8. From the top right of the Build Project screen, click on the "Edit" dropdown then "Buildspec"
 ![image](https://user-images.githubusercontent.com/126644393/225575452-8964be7d-9cfc-4749-a0ee-37f345b8c3ae.png)
@@ -243,7 +243,7 @@ Go to "Configuration" tab, select "Permissions" from the left panel and click on
 ### Use CodePipeline to deploy resources in Scenario 1-3
 
 #### Update CodePipeline
-1. Go to CodePipeline following [this link](https://ap-southeast-5.console.aws.amazon.com/codesuite/codepipeline/pipelines/iac-devsecops-pipeline/view?region=ap-southeast-2)
+1. Go to CodePipeline following [this link](https://ap-southeast-2.console.aws.amazon.com/codesuite/codepipeline/pipelines/iac-devsecops-pipeline/view?region=ap-southeast-2)
 2. Click "Edit", then add a new stage after **Test** stage called "Deploy"
 3. create an Action Group
 4. Add an action in the Deploy stage using below details:
