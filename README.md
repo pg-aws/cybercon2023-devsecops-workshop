@@ -211,7 +211,7 @@ In this scenario, we will create a custom policy to ensure AppSnync is protected
 - Execution role: Create a new role with basic Lambda permissions
 - Import the **ImportVulToSecurityHub.zip** file to the Lambda function you just created
 
-The file structure should look like the screenshot below: 
+The file structure should look like the screenshot below:
 ![image](https://user-images.githubusercontent.com/126644393/225810501-8b1ea8e7-5818-4b17-a029-e7fc5fa9d3fc.png)
 
 3. Once created, go to "Code" tab, scroll down to the “Runtime settings” section and click “Edit”
@@ -271,8 +271,10 @@ Go to "Configuration" tab, select "Permissions" from the left panel and click on
 1. Download the files from the "scenario-2" folder 
 2. Create a S3 bucket in **us-east-1** region called "waf-logging-bucket-[our Account ID]"
 3. Switch to **us-east-1** region, and deploy the **aws-waf-security-automations.template** in CloudFormation console. This CloudFormation template will install a WAF that can be used to protect resources created in Scenario 2 and 4. Once completed, note down the ARN of the WAF. 
-4. Open s3-fixed.yaml, replace Line 87 with ARN of the WAF you just created
-  ```WebACLId: "arn:aws:wafv2:us-east-1:${AWS::AccountId}:global/webacl/waf-security-automation/692db26e-385d-4156-b9f6-ed160261c8ed"```
+4. Open **s3-fixed.yaml**, replace Line 87 with ARN of the WAF you just created
+  ```
+  WebACLId: "arn:aws:wafv2:us-east-1:${AWS::AccountId}:global/webacl/waf-security-automation/692db26e-385d-4156-b9f6-ed160261c8ed"
+  ```
 5. Navigate to you CodeCommit Repository in AWS console
 6. Select the **sample-template.yaml** file then click 'Edit'
 7. Override the original content with the **s3-fixed.yaml** file you just downloaded and click "Commit changes"
