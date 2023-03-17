@@ -252,9 +252,12 @@ Go to "Configuration" tab, select "Permissions" from the left panel and click on
   
 4. Click "done" and Save the pipeline
 5. Create a file called "accounts.txt", add your AWS account ID to the file in JSON format (see example below), and upload the file to CodeCommit Repository.
-'''[
+
+```
+[
     "111111222222"
-]'''
+]
+```
   
 ### Scenario 1
 1. Download the files from the "scenario-2" folder
