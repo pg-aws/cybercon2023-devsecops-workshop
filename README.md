@@ -242,7 +242,7 @@ In this scenario, we will create a custom policy to ensure AppSnync is protected
 4. Click "done" and Save the pipeline
   
 ### Scenario 1
-1.Download the files from the "scenario-2" folder 
+1. Download the files from the "scenario-2" folder
 2. Navigate to you CodeCommit Repository in AWS console
 3. Select the **sample-template.yaml** file then click 'Edit'
 4. Override the original content with the **ec2-fixed.yaml** file you just downloaded and click "Commit changes"
@@ -250,7 +250,7 @@ In this scenario, we will create a custom policy to ensure AppSnync is protected
 6. Once completed, navigate to the EC2 console and validate the EC2 instance created by CodePipeline
   
 ### Scenario 2
-1.Download the files from the "scenario-2" folder 
+1. Download the files from the "scenario-2" folder 
 2. Create a S3 bucket in **us-east-1** region called "waf-logging-bucket-[our Account ID]"
 3. Switch to **us-east-1** region, and deploy the **aws-waf-security-automations.template** in CloudFormation console. This CloudFormation template will install a WAF that can be used to protect resources created in Scenario 2 and 4. Once completed, note down the ARN of the WAF. 
 4. Open s3-fixed.yaml, replace Line 87 with ARN of the WAF you just created
@@ -265,7 +265,7 @@ In this scenario, we will create a custom policy to ensure AppSnync is protected
 
 
 ### Scenario 3
-1.Download the files from the "scenario-3" folder 
+1. Download the files from the "scenario-3" folder 
 2. Navigate to you CodeCommit Repository in AWS console
 3. Select the **sample-template.yaml** file then click 'Edit'
 4. Override the original content with the **dynamodb-fixed.yaml** file you just downloaded and click "Commit changes"
