@@ -210,10 +210,13 @@ In this scenario, we will create a custom policy to ensure AppSnync is protected
 - Runtime: Python 3.9
 - Execution role: Create a new role with basic Lambda permissions
 - Import the **ImportVulToSecurityHub.zip** file to the Lambda function you just created
-- Update Handler to: import_findings_security_hub.lambda_handler
-3. Once created, go to "Configuration" tab, select "Permissions" from the left panel and click on the Execution role name
+3. Once created, go to "Code" tab, scroll down to the “Runtime settings” section and click “Edit”
+- Update Handler to: '''import_findings_security_hub.lambda_handler'''
+![image](https://user-images.githubusercontent.com/126644393/225796690-a03e7229-9903-4dfb-b09f-ec1f908b1d91.png)
+
+Go to "Configuration" tab, select "Permissions" from the left panel and click on the Execution role name
 ![image](https://user-images.githubusercontent.com/126644393/225792489-968e8ab4-8561-44d3-bb3e-5005df64fa28.png)
-4. Add AmazonS3FullAccess and AWSSecurityHubFullAccess to the role
+4. Add **AmazonS3FullAccess** and **AWSSecurityHubFullAccess** to the role
 ![image](https://user-images.githubusercontent.com/126644393/225792866-8354ed32-5ec7-42de-97d3-a3c92dd71a64.png)
 
 5. Upload the **buildspec-checkov.yml** file to your CodeCommit Repository
