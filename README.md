@@ -33,14 +33,18 @@ Below is the architecture diagram of our DevSecOps pipeline. The diagram include
 
 ![IaC DevSecOps Pipeline Architecture-Lab](https://user-images.githubusercontent.com/126644393/225544261-9257d471-d532-4ddc-9399-86b992f1c3c3.png)
 
+## Prerequisite
+- You will need Administrator access to the AWS account you use in this workshop
+- You will deploy all resources in **ap-southeast-2** region unless specified otherwise.
+
 ## Initialise Lab
-Let’s deploy the DevSecOps pipeline using the CloudFormation template provided in this project. We will be using **ap-southeast-2** region in this workshop, but 
+Let’s deploy the DevSecOps pipeline using the CloudFormation template provided in this project. 
 
 From the "environment" folder download the **devsecops-pipeline.yaml** and deploy the pipeline in CloudFormation console.
 
 Once the CloudFormation template is deployed successfully, you will see the DevSecOps pipeline under AWS CodePipeline. 
 
-Below is the screenshot of the pipeline after a successful execution. Please note, you may see a failed status because you haven’t initiated your pipeline yet. 
+Below is the screenshot of the pipeline after a successful execution. Please note, you may see a failed status because you haven’t initialised your CodeCommit repository yet. 
 
 Before initiating the pipeline, let's first complete the steps in the [Check Pipeline](#Check-Pipeline) section to upload a sample CloudFormation script to your CodeCommit repository, so the pipeline will have something to test and deploy.
 
