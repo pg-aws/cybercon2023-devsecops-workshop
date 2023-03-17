@@ -220,10 +220,14 @@ In this scenario, we will create a custom policy to ensure AppSnync is protected
 - Function name: ImportVulToSecurityHub
 - Runtime: Python 3.9
 - Execution role: Create a new role with basic Lambda permissions
-- Import **ImportVulToSecurityHub.zip** to the Lambda function you just created
+- Upload **ImportVulToSecurityHub.zip** to the Lambda function you just created
+![image](https://user-images.githubusercontent.com/126644393/225844480-1d3369a0-48ca-4c2a-ac1e-0fc4ee641d5a.png)
 
-The file structure should look like the screenshot below:
+Move the python files to the root folder. The file structure should look like the screenshot below:
 ![image](https://user-images.githubusercontent.com/126644393/225810501-8b1ea8e7-5818-4b17-a029-e7fc5fa9d3fc.png)
+
+Click on "Deploy" to apply the changes.
+![image](https://user-images.githubusercontent.com/126644393/225844772-f9376d4a-7cf6-404b-9e64-48eeb83fc4fa.png)
 
 3. Once created, go to "Code" tab, scroll down to the “Runtime settings” section and click “Edit”
 - Update Handler to: '''import_findings_security_hub.lambda_handler'''
@@ -242,8 +246,10 @@ Go to "Configuration" tab, select "Permissions" from the left panel and click on
 ![image](https://user-images.githubusercontent.com/126644393/225575452-8964be7d-9cfc-4749-a0ee-37f345b8c3ae.png)
 9. Select "Use a buildspec file" and enter "buildspec-checkov.yml" as Buildspec name
 ![image](https://user-images.githubusercontent.com/126644393/225590668-0711b989-2b7d-46d0-a3f2-ab9bdbcc758d.png)
-10. Create a S3 bucket in your current region called "**logging-bucket-[Your Account ID]**" and enable ACL
-11. Now when the CodePipeline runs again, you will be able to view all Findings in Security Hub!
+10. Create a S3 bucket in your current region called "**logging-bucket-[Your Account ID]**" with ACLs enabled
+![image](https://user-images.githubusercontent.com/126644393/225845604-029d392e-264f-4513-a078-7b3fa3c00ddb.png)
+
+12. Now when the CodePipeline runs again, you will be able to view all Findings (if there are any) in Security Hub!
 ![image](https://user-images.githubusercontent.com/126644393/225795096-1e4603cf-f089-4fb4-b678-8735debb38ad.png)
 
   
