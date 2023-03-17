@@ -224,6 +224,8 @@ In this scenario, we will create a custom policy to ensure AppSnync is protected
 9. Select "Use a buildspec file" and enter "buildspec-checkov.yml" as Buildspec name
 ![image](https://user-images.githubusercontent.com/126644393/225590668-0711b989-2b7d-46d0-a3f2-ab9bdbcc758d.png)
 10. Create a S3 bucket in your current region called "**logging-bucket-[Your Account ID]**" and enable ACL
+11. Now when the CodePipeline runs again, you will be able to view all Findings in Security Hub!
+![image](https://user-images.githubusercontent.com/126644393/225795096-1e4603cf-f089-4fb4-b678-8735debb38ad.png)
 
   
 ### Use CodePipeline to deploy resources in Scenario 1-3
