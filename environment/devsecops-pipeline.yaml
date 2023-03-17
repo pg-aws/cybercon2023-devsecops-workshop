@@ -44,6 +44,7 @@ Resources:
       ArtifactStore:
         Type: S3
         Location: !Ref PipelineArtifactBucket
+  
   CodePipelineRole:
     Type: "AWS::IAM::Role"
     Properties:
@@ -76,6 +77,7 @@ Resources:
               - Effect: Allow
                 Action:
                   - "codebuild:StartBuild"
+                  - "codebuild:BatchGetBuilds"
                 Resource:
                   - !Sub "arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:project/${CheckovProjectName}"
               - Effect: Allow
@@ -84,6 +86,26 @@ Resources:
                   - "codecommit:UploadArchive"
                 Resource:
                   - !GetAtt CodeRepo.Arn
+              - Effect: Allow
+                Action:
+                  - "cloudformation:*"
+                  - "ec2:*"
+                  - "cloudwatch:*"
+                  - "s3:*"
+                  - "sns:*"
+                  - "cloudformation:*"
+                  - "sqs:*"
+                  - "ecs:*"
+                  - "iam:PassRole"
+                Resource:
+                  - "*"
+              - Effect: Allow
+                Action:
+                  - "lambda:InvokeFunction"
+                  - "lambda:ListFunctions"
+                Resource:
+                  - "*"
+  
   CheckovProjectName:
     Type: "AWS::CodeBuild::Project"
     Properties:
@@ -164,3 +186,18 @@ Resources:
                 Resource:
                   - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/checkov-project"
                   - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/checkov-project:*"
+
+  DevSecOpsCFRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: "DevSecOps_CloudFormation_ServiceRole"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: cloudformation.amazonaws.com
+            Action: "sts:AssumeRole"
+      Path: "/"
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/AdministratorAccess"
