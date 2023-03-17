@@ -40,7 +40,10 @@ Below is the architecture diagram of our DevSecOps pipeline. The diagram include
 ## Initialise Lab
 Let’s deploy the DevSecOps pipeline using the CloudFormation template provided in this project. 
 
-From the "environment" folder download the **devsecops-pipeline.yaml** and deploy the pipeline in CloudFormation console.
+From the "environment" folder download the **devsecops-pipeline.yaml**.
+
+Navigate to the CloudFormation console, click on "Create Stack". Complete mandatory details and submit the template.
+![image](https://user-images.githubusercontent.com/126644393/225842060-c5863e32-9af4-42c2-ae96-b263fec190c1.png)
 
 Once the CloudFormation template is deployed successfully, you will see the DevSecOps pipeline under AWS CodePipeline. 
 
