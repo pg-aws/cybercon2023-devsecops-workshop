@@ -88,7 +88,7 @@ Resources:
           ViewerProtocolPolicy: redirect-to-https
         Logging:
           Bucket: "logging-bucket-${AWS::AccountId}.s3.amazonaws.com"
-        WebACLId: "arn:aws:wafv2:us-east-1:${AWS::AccountId}:global/webacl/waf-security-automation/692db26e-385d-4156-b9f6-ed160261c8ed"
+        WebACLId: "arn:aws:wafv2:us-east-1:${AWS::AccountId}:global/webacl/waf-security-automation/abcdef-1234-5678-abcd-efghijkixxx"
   
   BucketPolicy:
     Type: AWS::S3::BucketPolicy
