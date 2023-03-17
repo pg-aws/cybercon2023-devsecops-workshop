@@ -173,7 +173,7 @@ In this scenario, we will create a custom policy to ensure AppSnync is protected
 2. Navigate to you CodeCommit Repository in AWS console
 3. Select 'Add file' then "Create file", 
 ![image](https://user-images.githubusercontent.com/126644393/225547267-a4a946f0-7535-4df0-9ded-fe2b95e22ca1.png)
-4. Leave the file content empty and enter "**custom-policies/__init__.py**" as the File name
+4. Leave the file content empty and enter "**custom-policies/\_\_init\_\_.py**" as the File name
 ![image](https://user-images.githubusercontent.com/126644393/225572566-b338c2a0-d877-4e50-9b45-f104a3228c74.png)
 5. Fill in Author name and Email address, then click "Commit changes"
 6. This will create a "__init__.py" file under a "custom-policies" directory. Next, let's follow the same steps to create the custom policy under the same directory. 
