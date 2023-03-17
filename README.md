@@ -282,7 +282,7 @@ To test this out:
 4. Click "Done" and Save the pipeline
   
 ### Scenario 1
-1. Download the files from the "scenario-2" folder
+1. Download the files from the "scenario-1" folder
 2. Navigate to you CodeCommit Repository in AWS console
 3. Select the **sample-template.yaml** file then click 'Edit'
 4. Override the original content with the **ec2-fixed.yaml** file you just downloaded and click "Commit changes"
