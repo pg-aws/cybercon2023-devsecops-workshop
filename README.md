@@ -93,10 +93,10 @@ In the popup window, clear the Branch name by clicking on the cross icon next to
 6. Click on "View in CodeBuild" to see the details of the vulnerabilities
 <img alt="image" src="https://user-images.githubusercontent.com/126644393/225561838-7210a167-e127-484f-8dda-ea01d8a0b9e7.png">
 7. The failed checks are:
-- Check: CKV_AWS_3: "Ensure all data stored in the EBS is securely encrypted"
-- Check: CKV_AWS_88: "EC2 instance should not have public IP."
-- Check: CKV_AWS_260: "Ensure no security groups allow ingress from 0.0.0.0:0 to port 80"
-- Check: CKV_AWS_24: "Ensure no security groups allow ingress from 0.0.0.0:0 to port 22"
+- Check: CKV_AWS_3: "Ensure all data stored in the EBS is securely encrypted" <br />
+- Check: CKV_AWS_88: "EC2 instance should not have public IP."<br />
+- Check: CKV_AWS_260: "Ensure no security groups allow ingress from 0.0.0.0:0 to port 80"<br />
+- Check: CKV_AWS_24: "Ensure no security groups allow ingress from 0.0.0.0:0 to port 22"<br />
 8. Next we will fix these issues in our CloudFormation template and upload the fixed version to CodeCommit Repository
 
 ### Fix vulnerabilities in EC2 template
