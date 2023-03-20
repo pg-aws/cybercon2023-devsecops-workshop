@@ -36,6 +36,7 @@ Below is the architecture diagram of our DevSecOps pipeline. The diagram include
 ## Prerequisite
 - You will need Administrator access to the AWS account you use in this workshop
 - You will deploy all resources in **ap-southeast-2** region unless specified otherwise.
+- Enable AWS SecurityHub in your account. This service will be used in our DevSecOps pipeline.
 
 ## Initialise Lab
 Let’s deploy the DevSecOps pipeline using the CloudFormation template provided in this project. 
@@ -58,11 +59,11 @@ Before initiating the pipeline, let's first complete the steps in the [Check Pip
 Let’s upload a sample CloudFormation script to CodeCommit to test the CodePipeline.
 
 1. From the "environment" folder download the **sample-template.yaml** and 
-2. Go to CodeCommit following [this link](https://ap-southeast-2.console.aws.amazon.com/codesuite/codecommit/repositories/cloudformation-checkov-test/browse?region=ap-southeast-2)
+2. Go to CodeCommit
 3. Select 'Add file' then "Upload file", choose the  **sample-template.yaml** file you just downloaded and click "Commit changes"
 ![image](https://user-images.githubusercontent.com/126644393/225547267-a4a946f0-7535-4df0-9ded-fe2b95e22ca1.png)
 
-4. This will automatically trigger the pipeline and go through the vulnerability scanning stages. You can go to [this link](https://ap-southeast-2.console.aws.amazon.com/codesuite/codepipeline/pipelines/iac-devsecops-pipeline/view?region=ap-southeast-2) to check the running status of your pipeline.
+4. This will automatically trigger the pipeline and go through the vulnerability scanning stages. Go to your CodePipeline to check the running status of your pipeline.
 6. If your pipeline does not start automatically, click on the "Edit" button from the top right of the CodePipeline screen, click on "Edit Stage" of the Source Action stage, then click on the edit icon in the "SourceCodeAction" box.
 ![image](https://user-images.githubusercontent.com/126644393/225553148-e15e52a5-3067-474b-a055-95c42004e881.png)
 In the popup window, clear the Branch name by clicking on the cross icon next to it, and select "main" from the dropdown again. This is to ensure any changes on the "main" branch will trigger the CodePipeline.
@@ -83,7 +84,7 @@ In the popup window, clear the Branch name by clicking on the cross icon next to
 
 ### Scan vulnerable EC2 template
 1. Download the files from the "scenario-1" folder
-2. Navigate to your CodeCommit Repository in AWS console following [this link](https://ap-southeast-2.console.aws.amazon.com/codesuite/codecommit/repositories/cloudformation-checkov-test/browse?region=ap-southeast-2)
+2. Navigate to your CodeCommit Repository in AWS console
 3. Select the **sample-template.yaml** file then click 'Edit'
 4. Override the original content with the **ec2.yaml** file you just downloaded and click "Commit changes"
 ![image](https://user-images.githubusercontent.com/126644393/225560291-5d6fccbd-2cb4-4a50-a686-e6f4b7a9241b.png)
@@ -92,7 +93,7 @@ In the popup window, clear the Branch name by clicking on the cross icon next to
 5. Once completed, check the completion status of the 'CheckovTestAction' box. It should result in a 'Failed' state.
 6. Click on "View in CodeBuild" to see the details of the vulnerabilities
 <img alt="image" src="https://user-images.githubusercontent.com/126644393/225561838-7210a167-e127-484f-8dda-ea01d8a0b9e7.png">
-7. The failed checks are:
+7. The failed checks are: <br />
 - Check: CKV_AWS_3: "Ensure all data stored in the EBS is securely encrypted" <br />
 - Check: CKV_AWS_88: "EC2 instance should not have public IP."<br />
 - Check: CKV_AWS_260: "Ensure no security groups allow ingress from 0.0.0.0:0 to port 80"<br />
@@ -168,6 +169,8 @@ In addition, you can also create your own custom policies to monitor and enforce
 
 In this scenario, we will create a custom policy to ensure AppSnync is protected by WAF and see how misconfigurations is detected.
 
+Check out [Checkov Documentation](https://www.checkov.io/3.Custom%20Policies/Custom%20Policies%20Overview.html) to see how to write your own custom policies.
+
 ### Setup custom policy
 1. Download the files from the "scenario-4" folder
 2. Navigate to your CodeCommit Repository in AWS console
@@ -177,18 +180,16 @@ In this scenario, we will create a custom policy to ensure AppSnync is protected
 ![image](https://user-images.githubusercontent.com/126644393/225572566-b338c2a0-d877-4e50-9b45-f104a3228c74.png)
 5. Fill in Author name and Email address, then click "Commit changes"
 6. This will create a "__init__.py" file under a "custom-policies" directory. Next, let's follow the same steps to create the custom policy under the same directory. 
-7. Select 'Add file' then "Create file", 
-8. Copy the content from the **AppSyncProtectedByWAF.yaml** file and paste into the file editor
-9. Enter "**custom-policies/AppSyncProtectedByWAF.yaml**" as the File name, fill in Author name and Email address, then click "Commit changes"
-10. Go to CodePipeline following [this link](https://ap-southeast-2.console.aws.amazon.com/codesuite/codepipeline/pipelines/iac-devsecops-pipeline/view?region=ap-southeast-2)
-11. From the left panel, expand the "Build" section, click "Build Projects", then select the "checkov-project" from the main screen
-12. From the top right of the Build Project screen, click on the "Edit" dropdown then "Buildspec"
+7. Navigate to the "custm-policies" folder you just created
+8. Upload **AppSyncProtectedByWAF.yaml** file
+9. From the left panel, expand the "Build" section, click "Build Projects", then select the "checkov-project" from the main screen
+10. From the top right of the Build Project screen, click on the "Edit" dropdown then "Buildspec"
 ![image](https://user-images.githubusercontent.com/126644393/225575452-8964be7d-9cfc-4749-a0ee-37f345b8c3ae.png)
-13. Replace Line 11 with: 
+11. Replace Line 11 with: 
 ```- checkov -d . --external-checks-dir=custom-policies```
 ![image](https://user-images.githubusercontent.com/126644393/225576359-ff0f00ab-b7b7-4490-beb5-a10c389a6fa0.png)
-14. Click "Update buildspec"
-15. We are now ready to scan CloudFormation scripts with the new custom policy!
+12. Click "Update buildspec"
+13. We are now ready to scan CloudFormation scripts with the new custom policy!
 
 ### Scan vulnerable AppSync template
 1. Navigate to your CodeCommit Repository in AWS console
@@ -239,8 +240,8 @@ Go to "Configuration" tab, select "Permissions" from the left panel and click on
 4. Add permissions **AmazonS3FullAccess** and **AWSSecurityHubFullAccess** to the role
 ![image](https://user-images.githubusercontent.com/126644393/225792866-8354ed32-5ec7-42de-97d3-a3c92dd71a64.png)
 
-5. Upload the **buildspec-checkov.yml** file to your CodeCommit Repository
-6. Go to CodePipeline following [this link](https://ap-southeast-2.console.aws.amazon.com/codesuite/codepipeline/pipelines/iac-devsecops-pipeline/view?region=ap-southeast-2)
+5. Upload the **buildspec-checkov.yml** file to the root of your CodeCommit Repository
+6. Navigate to your CodePipeline in AWS console
 7. From the left panel, expand the "Build" section, click "Build Projects", then select the "checkov-project" from the main screen
 8. From the top right of the Build Project screen, click on the "Edit" dropdown then "Buildspec"
 ![image](https://user-images.githubusercontent.com/126644393/225575452-8964be7d-9cfc-4749-a0ee-37f345b8c3ae.png)
@@ -262,7 +263,7 @@ To test this out:
 ### Use CodePipeline to deploy resources in Scenario 1-3
 
 #### Update CodePipeline
-1. Go to CodePipeline following [this link](https://ap-southeast-2.console.aws.amazon.com/codesuite/codepipeline/pipelines/iac-devsecops-pipeline/view?region=ap-southeast-2)
+1. Navigate to your CodePipeline in AWS console
 2. Click "Edit", then add a new stage after **Test** stage called "Deploy"
 3. create an Action Group
 4. Add an action in the Deploy stage using below details:
@@ -273,7 +274,7 @@ To test this out:
   - Action mode: Create or update a stack
   - Stack name: [enter a stack name that's unique in your CloudFormation console]
   - Actifact name: SourceArtifact
-  - File name: ec2.yaml
+  - File name: sample-template.yaml
   - Role name: arn:aws:iam::549319014430:role/DevSecOps_CloudFormation_ServiceRole
   
 ![image](https://user-images.githubusercontent.com/126644393/225835520-17daa992-eed2-4a6a-9b3a-1bbfc1716058.png)
